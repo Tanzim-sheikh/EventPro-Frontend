@@ -18,9 +18,9 @@ const OptionLogin = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="text-center text-3xl font-extrabold text-gray-900">
+      <div className="min-h-screen flex flex-col justify-center">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md ">
+          <h2 className="text-center text-3xl font-extrabold text-gray-900 font-audiowide">
             Select Login Option
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -28,15 +28,15 @@ const OptionLogin = () => {
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md border-[#8C9F6E] border-2 rounded-lg shadow-lg shadow-[#8C9F6E]">
+          <div className="bg-[#f0f5e8] py-8 px-4 shadow sm:rounded-lg sm:px-10">
             {/* Tab Selector */}
             <div className="flex rounded-md shadow-sm mb-8">
               <button
                 onClick={() => setActiveTab('user')}
                 className={`flex-1 py-2 px-4 rounded-l-md text-sm font-medium ${
                   activeTab === 'user'
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-[#8C9F6E] text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -46,7 +46,7 @@ const OptionLogin = () => {
                 onClick={() => setActiveTab('organizer')}
                 className={`flex-1 py-2 px-4 rounded-r-md text-sm font-medium ${
                   activeTab === 'organizer'
-                    ? 'bg-indigo-600 text-white'
+                    ? 'bg-[#8C9F6E] text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -64,7 +64,7 @@ const OptionLogin = () => {
                   </p>
                   <button
                     onClick={handleUserLogin}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
                   >
                     Continue as User
                   </button>
@@ -77,7 +77,7 @@ const OptionLogin = () => {
                   </p>
                   <button
                     onClick={handleOrganizerLogin}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
                     Continue as Organizer
                   </button>
@@ -89,7 +89,7 @@ const OptionLogin = () => {
                   Don't have an account?{' '}
                   <button
                     onClick={() => navigate(activeTab === 'user' ? '/UserSignup' : 'OrganizerSignup')}
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                    className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]"
                   >
                     Sign up
                   </button>
@@ -105,3 +105,5 @@ const OptionLogin = () => {
 };
 
 export default OptionLogin;  
+
+
