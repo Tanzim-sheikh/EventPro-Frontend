@@ -1,0 +1,25 @@
+/* App-specific styles can be added here if needed */
+.clip-header {
+  clip-path: polygon(0 0, 100% 0, 110% 80%, 0 100%);
+}
+
+.clip-footer {
+  clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+}
+
+@media(max-width: 468px){
+  .clip-header {
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  }
+}
+
+@media(max-width: 640px){
+  .clip-footer{
+    clip-path:polygon(0 5%, 100% 0, 100% 100%, 0 100%)
+  }
+}
+
+
+html {
+  scroll-behavior: smooth;
+}
