@@ -1,127 +1,25 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import axios from 'axios';
-// import { axios_url } from '../../API/axios';
-// import Header from '../Home/Header';
-// import Footer from '../Home/Footer';
-
-// const Login = () => {
-//   const [formData, setFormData] = useState({
-//     email: '',
-//     password: ''
-//   });
-//   const [errorMsg, setErrorMsg] = useState('');
-//   const navigate = useNavigate();
-  
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
-//       [name]: value
-//     }));
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await axios.post(`${axios_url}/User/UserLogin`, formData);
-//       console.log("Login response:", response);
-//       if(response.data.token) {
-//         localStorage.setItem('token', response.data.token);
-//       }
-//       alert('Login successful!');
-//       navigate('/');
-//     } catch (error) {
-//       console.log("Login error:", error, error.response);
-//       const msg = error.response?.data?.message || 'Login failed. Please try again!';
-//       setErrorMsg(msg);
-//       alert(msg);
-//     }
-//   };
-
-//   return (
-//     <>
-//     <Header/>
-//     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-//       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-//         <h1 className="text-center text-3xl font-bold text-gray-900 mb-8">Login</h1>
-//         {errorMsg && <div className="text-red-600 text-center mb-4">{errorMsg}</div>}
-//       </div>
-//       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-//         <div className="card py-8 px-4 sm:px-10">
-//           <form onSubmit={handleSubmit} className="space-y-6">
-//             <div>
-//               <input
-//                 name="email"
-//                 type="email"
-//                 value={formData.email}
-//                 onChange={handleChange}
-//                 placeholder="Email"
-//                 className="input-field"
-//                 required
-//               />
-//             </div>
-//             <div>
-//               <input
-//                 name="password"
-//                 type="password"
-//                 value={formData.password}
-//                 onChange={handleChange}
-//                 placeholder="Password"
-//                 className="input-field"
-//                 required
-//               />
-//             </div>
-//             <div>
-//               <button type="submit" className="btn-primary w-full">
-//                 Login
-//               </button>
-//             </div>
-//           </form>
-//           <div className="mt-6 text-center space-y-2">
-//             <p className="text-sm text-gray-600">
-//               Don't have an account?{' '}
-//               <span className="text-primary-600 hover:text-primary-500 font-medium cursor-pointer" onClick={() => navigate('/signup')}>
-//                 Signup
-//               </span>
-//             </p>
-//             <p className="text-sm text-gray-600">
-//               Forgot password?{' '}
-//               <span className="text-primary-600 hover:text-primary-500 font-medium cursor-pointer">
-//                 Forgot password
-//               </span>
-//             </p>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//     <Footer/>
-//     </>
-//   );
-// };
-
-// export default Login;
-
-
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { axios_url } from '../../API/axios';
+import { useAuth } from '../../context/AuthContext';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
 
-const Login = () => {
+const UserLogin = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [name]: value
     }));
@@ -134,19 +32,16 @@ const Login = () => {
     
     try {
       const response = await axios.post(`${axios_url}/User/UserLogin`, formData);
-      console.log("Login response:", response);
+      console.log("Login response:", response.data);
       
       if(response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userData', JSON.stringify(response.data.user));
+        // Use the auth context login method with the actual user type from backend
+        login(response.data.user, response.data.token, response.data.type || response.data.user.type);
+        navigate('/');
       }
-      
-      alert('Login successful!');
-      navigate('/');
     } catch (error) {
-      console.log("Login error:", error, error.response);
-      const msg = error.response?.data?.message || 'Login failed. Please try again!';
-      setErrorMsg(msg);
+      console.error("Login error:", error.response?.data);
+      setErrorMsg(error.response?.data?.message || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -154,100 +49,83 @@ const Login = () => {
 
   return (
     <>
-      <Header/>
-      <div className="bg-white min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <Header />
+      <div className="min-h-screen flex flex-col justify-center">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-[#8C9F6E] rounded-2xl flex items-center justify-center shadow-lg">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            </div>
-          </div>
-          <h1 className="text-center text-3xl font-bold text-[#5a6b47] font-audiowide mb-2">
+          <h2 className="text-center text-3xl font-extrabold text-gray-900 font-audiowide">
             User Login
-          </h1>
-          <p className="text-center text-sm text-[#5a6b47]">
-            Welcome back! Please login to your account
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Or{' '}
+            <Link 
+              to="/auth/user/signup" 
+              className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]"
+            >
+              create a new account
+            </Link>
           </p>
         </div>
 
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md border-[#8C9F6E] border-2 rounded-lg shadow-lg shadow-[#8C9F6E]/30">
-          <div className="bg-[#f0f5e8] py-8 px-6 rounded-lg">
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md border-[#8C9F6E] border-2 rounded-lg shadow-lg shadow-[#8C9F6E]">
+          <div className="bg-[#f0f5e8] py-8 px-4 shadow sm:rounded-lg sm:px-10">
             {errorMsg && (
-              <div className="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded-lg text-sm text-center">
+              <div className="mb-4 p-3 bg-red-100 border border-red-200 text-red-700 rounded-md text-sm">
                 {errorMsg}
               </div>
             )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+            
+            <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-[#5a6b47] mb-2">
-                  Email Address
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  Email address
                 </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  className="w-full px-4 py-3 border border-[#dbe4d3] rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:border-[#8C9F6E] transition-colors duration-200"
-                  required
-                />
+                <div className="mt-1">
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#8C9F6E] focus:border-[#8C9F6E] sm:text-sm"
+                  />
+                </div>
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-[#5a6b47] mb-2">
+                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-3 border border-[#dbe4d3] rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:border-[#8C9F6E] transition-colors duration-200"
-                  required
-                />
+                <div className="mt-1">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#8C9F6E] focus:border-[#8C9F6E] sm:text-sm"
+                  />
+                </div>
               </div>
 
               <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-[#8C9F6E] focus:ring-[#8C9F6E] border-gray-300 rounded"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-[#5a6b47]">
-                    Remember me
-                  </label>
+                <div className="text-sm">
+                  <Link to="/forgot-password" className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]">
+                    Forgot your password?
+                  </Link>
                 </div>
-
-                <Link to="/forgot-password" className="text-sm font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
-                  Forgot password?
-                </Link>
               </div>
 
               <div>
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 px-4 bg-[#8C9F6E] text-white font-semibold rounded-lg shadow-md hover:bg-[#7a8c5e] transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#7a8a5f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E] disabled:opacity-50"
                 >
-                  {isLoading ? (
-                    <span className="flex items-center justify-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                      Signing in...
-                    </span>
-                  ) : (
-                    'Sign in'
-                  )}
+                  {isLoading ? 'Signing in...' : 'Sign in'}
                 </button>
               </div>
             </form>
@@ -255,10 +133,10 @@ const Login = () => {
             <div className="mt-6">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-[#dbe4d3]" />
+                  <div className="w-full border-t border-gray-300" />
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-[#f0f5e8] text-[#5a6b47]">
+                  <span className="px-2 bg-white text-gray-500">
                     Or continue with
                   </span>
                 </div>
@@ -266,51 +144,40 @@ const Login = () => {
 
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <div>
-                  <button className="w-full inline-flex justify-center py-2 px-4 border border-[#dbe4d3] rounded-md shadow-sm bg-white text-sm font-medium text-[#5a6b47] hover:bg-gray-50 transition-colors duration-200">
-                    <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 10.5c0 2.76-2.24 5-5 5s-5-2.24-5-5 2.24-5 5-5 5 2.24 5 5z"/>
+                  <a
+                    href="#"
+                    className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  >
+                    <span className="sr-only">Sign in with Google</span>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
                     </svg>
-                    <span className="ml-2">Google</span>
-                  </button>
+                  </a>
                 </div>
 
                 <div>
-                  <button className="w-full inline-flex justify-center py-2 px-4 border border-[#dbe4d3] rounded-md shadow-sm bg-white text-sm font-medium text-[#5a6b47] hover:bg-gray-50 transition-colors duration-200">
-                    <svg className="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                  <a
+                    href="#"
+                    className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                  >
+                    <span className="sr-only">Sign in with GitHub</span>
+                    <svg className="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.603-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.025A9.564 9.564 0 0110 4.844c.85.004 1.705.114 2.504.336 1.909-1.293 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.933.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C17.14 18.17 20 14.44 20 10.017 20 4.484 15.522 0 10 0z"
+                        clipRule="evenodd"
+                      />
                     </svg>
-                    <span className="ml-2">Facebook</span>
-                  </button>
+                  </a>
                 </div>
               </div>
-            </div>
-
-            <div className="mt-6 text-center text-sm space-y-2">
-              <p className="text-[#5a6b47]">
-                Don't have an account?{' '}
-                <Link to="/signup" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
-                  Sign up
-                </Link>
-              </p>
-              <p className="text-[#5a6b47]">
-                Are you an organizer?{' '}
-                <Link to="/organizerLogin" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
-                  Login as Organizer
-                </Link>
-              </p>
-              <p className="text-[#5a6b47]">
-                Go back to{' '}
-                <Link to="/optionLogin" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
-                  Login Options
-                </Link>
-              </p>
             </div>
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
 
-export default Login;
+export default UserLogin;

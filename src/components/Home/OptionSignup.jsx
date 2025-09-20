@@ -8,11 +8,11 @@ const OptionSignup = () => {
   const [activeTab, setActiveTab] = useState('user');
 
   const handleUserSignup = () => {
-    navigate('/userSignup');
+    navigate('/auth/user/signup');
   };
 
   const handleOrganizerSignup = () => {
-    navigate('/organizerSignup');
+    navigate('/auth/organizer/signup');
   };
 
   return (
@@ -88,7 +88,7 @@ const OptionSignup = () => {
                 <p className="text-gray-600">
                   Already have an account?{' '}
                   <button
-                    onClick={() => navigate(activeTab === 'user' ? '/user-login' : '/organizer-login')}
+                    onClick={() => navigate(activeTab === 'user' ? '/auth/user/login' : '/auth/organizer/login')}
                     className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]"
                   >
                     Login

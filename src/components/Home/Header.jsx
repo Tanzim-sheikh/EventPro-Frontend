@@ -1,11 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, Fragment, useRef } from "react";
+import { createPortal } from 'react-dom';
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileUserMenuOpen, setIsMobileUserMenuOpen] = useState(false);
+  const userMenuButtonRef = useRef(null);
+  const userMenuRef = useRef(null);
+  const [userMenuPosition, setUserMenuPosition] = useState({ top: 0, left: 0 });
   const navigate = useNavigate();
+  const location = useLocation();
+  const { isAuthenticated, user, logout } = useAuth();
 
   useEffect(() => {
     AOS.init({
@@ -14,10 +23,68 @@ const Header = () => {
     });
   }, []);
 
+  const handleNavToSection = async (sectionId) => {
+    const goScroll = () => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    if (location.pathname !== '/') {
+      navigate('/');
+      requestAnimationFrame(() => {
+        setTimeout(goScroll, 0);
+      });
+    } else {
+      goScroll();
+    }
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (!isUserMenuOpen) return;
+    const updatePosition = () => {
+      const buttonEl = userMenuButtonRef.current;
+      if (!buttonEl) return;
+      const rect = buttonEl.getBoundingClientRect();
+      // Dropdown width is w-56 => 14rem => 224px
+      const dropdownWidth = 224;
+      setUserMenuPosition({
+        top: rect.bottom + window.scrollY + 8,
+        left: rect.right + window.scrollX - dropdownWidth,
+      });
+    };
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+
+    const onDocClick = (e) => {
+      const btn = userMenuButtonRef.current;
+      const menu = userMenuRef.current;
+      if (!btn || !menu) return;
+      if (btn.contains(e.target) || menu.contains(e.target)) return;
+      setIsUserMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onDocClick);
+
+    return () => {
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+      document.removeEventListener('mousedown', onDocClick);
+    };
+  }, [isUserMenuOpen]);
+
   return (
     <header 
       id="Home" 
-      className="sticky top-0 z-10 bg-[#8C9F6E] font-audiowide clip-header pb-3 rounded-bl-[40px]"
+      className="sticky top-0 z-10 bg-[#8C9F6E] font-audiowide clip-header pb-3 rounded-bl-[40px] overflow-visible"
       data-aos="fade-down"
       data-aos-duration="1000"
     >
@@ -27,7 +94,8 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div 
+          <Link 
+            to="/" 
             className="flex items-center"
             data-aos="fade-right"
             data-aos-delay="200"
@@ -35,41 +103,41 @@ const Header = () => {
             <h1 className="text-2xl font-bold text-white tracking-wide hover:cursor-pointer">
               EventPro
             </h1>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav 
-            className="hidden md:flex space-x-8"
+            className="hidden md:flex items-center space-x-8"
             data-aos="fade-down"
             data-aos-delay="300"
           >
-            <a
-              href="#Home"
+            <Link
+              to="/"
+              className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200"
               onClick={() => {
                 navigate("/");
               }}
-              className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200"
             >
               Home
-            </a>
-            <a
-              href="#"
+            </Link>
+            <button
+              onClick={() => handleNavToSection('Events')}
               className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200"
             >
               Events
-            </a>
-            <a
-              href="#About"
+            </button>
+            <button
+              onClick={() => handleNavToSection('About')}
               className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200"
             >
               About
-            </a>
-            <a
-              href="#"
+            </button>
+            <button
+              onClick={() => handleNavToSection('Contact')}
               className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium transition-colors duration-200"
             >
               Contact
-            </a>
+            </button>
           </nav>
 
           {/* User Menu */}
@@ -77,19 +145,80 @@ const Header = () => {
             className="hidden md:flex items-center space-x-4"
             data-aos="fade-left"
             data-aos-delay="400"
-          >
-            <button
-              onClick={() => navigate("/OptionLogin")}
-              className="px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-[#8C9F6E] hover:text-white border border-[#8C9F6E] transition"
-            >
-              Login
-            </button>
-            <button
-              onClick={() => navigate("/OptionSignup")}
-              className="px-4 py-2 rounded-md bg-black text-white font-semibold hover:bg-white hover:text-black transition"
-            >
-              Sign Up
-            </button>
+          > 
+          {isAuthenticated && user ? (
+            <div className="relative">
+              <button
+                ref={userMenuButtonRef}
+                onClick={() => setIsUserMenuOpen((prev) => !prev)}
+                className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-gray-100 transition"
+              >
+                <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#8C9F6E] text-white">
+                  {(user.name || user.Name || 'U').charAt(0).toUpperCase()}
+                </span>
+                <span>{user.name || user.Name || 'User'}</span>
+                <svg className={`h-4 w-4 transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.185l3.71-3.955a.75.75 0 111.08 1.04l-4.24 4.52a.75.75 0 01-1.08 0l-4.24-4.52a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                </svg>
+              </button>
+              {isUserMenuOpen && createPortal(
+                (
+                  <div
+                    ref={userMenuRef}
+                    style={{ position: 'fixed', top: `${userMenuPosition.top}px`, left: `${userMenuPosition.left}px`, width: '14rem' }}
+                    className="bg-white shadow-lg rounded-md py-2 z-[9999]"
+                  >
+                    {/* <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                      Signed in as
+                      <div className="font-semibold text-gray-900 truncate">{user.email || user.name || user.Name}</div>
+                    </div> */}
+                    <Link
+                      to={`/${user.type?.toLowerCase() || 'user'}`}
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-center text-[#8C9F6E] hover:bg-gray-100"
+                    >
+                      {(user.type|| 'User')} Dashboard
+                    </Link>
+                    <Link
+                      to={`/${user.type?.toLowerCase() || 'user'}/profile`}
+                      onClick={() => setIsUserMenuOpen(false)}
+                      className="block px-4 py-2 text-sm text-center text-[#8C9F6E] hover:bg-gray-100"
+                    >
+                      My Profile
+                    </Link>
+                    <div className="my-1 h-px bg-gray-200" />
+                    <button
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        logout();
+                        navigate('/');
+                      }}
+                      className="block w-full text-center px-4 py-2 text-sm text-white bg-red-600 hover:bg-white hover:text-red-600"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ),
+                document.body
+              )}
+            </div>
+          ):(
+            <React.Fragment>
+              <button
+                onClick={() => navigate("/auth/login")}
+                className="px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-[#8C9F6E] hover:text-white border border-[#8C9F6E] transition"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => navigate("/auth/signup")}
+                className="px-4 py-2 rounded-md bg-black text-white font-semibold hover:bg-white hover:text-black transition"
+              >
+                Sign Up
+              </button>
+            </React.Fragment>
+          )}
+           
           </div>
 
           {/* Mobile menu button */}
@@ -129,7 +258,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div 
-            className="md:hidden bg-[#8C9F6E] border-t border-black"
+            className="md:hidden bg-[#8C9F6E] border-t border-black relative z-50"
             data-aos="fade-down"
             data-aos-duration="500"
           >
@@ -142,37 +271,91 @@ const Header = () => {
               >
                 Home
               </a>
-              <a
-                href="#"
-                className="bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+              <button
+                onClick={() => { handleNavToSection('Events'); setIsMenuOpen(false); }}
+                className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
               >
                 Events
-              </a>
-              <a
-                href="#"
-                className="bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+              </button>
+              <button
+                onClick={() => { handleNavToSection('About'); setIsMenuOpen(false); }}
+                className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
               >
                 About
-              </a>
-              <a
-                href="#"
-                className="bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+              </button>
+              <button
+                onClick={() => { handleNavToSection('Contact'); setIsMenuOpen(false); }}
+                className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
               >
                 Contact
-              </a>
+              </button>
               <div className="pt-4 space-y-2">
-                <button
-                  onClick={() => navigate("/OptionLogin")}
-                  className="w-full px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E] hover:bg-[#EFEFEF] transition"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => navigate("/OptionSignup")}
-                  className="w-full px-4 py-2 rounded-md bg-black text-white font-semibold hover:bg-[#333] transition"
-                >
-                  Sign Up
-                </button>
+                {isAuthenticated && user ? (
+                  <div className="space-y-2 text-left">
+                    <div className="text-white text-center py-2">
+                      {user.name || user.Name || 'User'}
+                    </div>
+                    <button
+                      onClick={() => setIsMobileUserMenuOpen((p) => !p)}
+                      className="w-full flex items-center text-center justify-between px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E] hover:bg-gray-100 transition"
+                    >
+                      <div>Account</div>
+                      <svg className={`h-4 w-4 transition-transform ${isMobileUserMenuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fillRule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.185l3.71-3.955a.75.75 0 111.08 1.04l-4.24 4.52a.75.75 0 01-1.08 0l-4.24-4.52a.75.75 0 01.02-1.06z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    {isMobileUserMenuOpen && (
+                      <div className="ml-2 mr-2 rounded-md bg-white shadow divide-y">
+                        <Link
+                          to={`/${user.type?.toLowerCase() || 'user'}`}
+                          className="block px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100"
+                          onClick={() => { setIsMenuOpen(false); setIsMobileUserMenuOpen(false); }}
+                        >
+                          {(user.type || 'User')} Dashboard
+                        </Link>
+                        <Link
+                          to={`/${user.type?.toLowerCase() || 'user'}/profile`}
+                          className="block px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100"
+                          onClick={() => { setIsMenuOpen(false); setIsMobileUserMenuOpen(false); }}
+                        >
+                          My Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            setIsMobileUserMenuOpen(false);
+                            setIsMenuOpen(false);
+                            logout();
+                            navigate('/');
+                          }}
+                          className="block w-full text-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          Logout
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        navigate("/auth/login");
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E] hover:bg-[#EFEFEF] transition"
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => {
+                        navigate("/auth/signup");
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full px-4 py-2 rounded-md bg-black text-white font-semibold hover:bg-[#333] transition"
+                    >
+                      Sign Up
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           </div>

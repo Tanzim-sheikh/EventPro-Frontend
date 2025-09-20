@@ -1,38 +1,3 @@
-// import React, { use, useState } from 'react'
-// import { Navigate } from 'react-router-dom';
-// import Header from '../Home/Header';
-// import axios from 'axios';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { axios_url } from '../../API/axios';
-// import Footer from '../Home/Footer';
-
-// const UserSignup = () => {
-   
-//      const navigate = useNavigate();
-
-//     const [formData, setFormData] = useState({
-//         name: '',
-//         email: '',
-//         password: ''
-//     })
-
-//    const handleChange = (e) =>{
-//      const {name, value} = e.target;
-//      setFormData((prev) =>({
-//         ...prev,
-//         [name]: value
-//      }))     
-//    }
-
-//    const handleSubmit = async (e) =>{
-//       e.preventDefault(); //Don't load the Page
-     
-//      try{
-
-//         const response = await axios.post(`${axios_url}/User/userSignup`, formData);
-//         console.log("Server Response :", response.data)
-//         console.log("Yeh Buddy User Sign Uppppp !!!")
-//         alert("Hey you're Registration is Success")
 //         navigate("/")
 //      } 
 
@@ -146,7 +111,7 @@ const UserSignup = () => {
       const response = await axios.post(`${axios_url}/User/userSignup`, formData);
       console.log("Server Response:", response.data);
       alert("Hey! Your registration is successful!");
-      navigate("/login");
+      navigate("/userLogin");
     } catch (error) {
       console.log("Error", error);
       const msg = error.response?.data?.message || "Registration failed. Please try again!";

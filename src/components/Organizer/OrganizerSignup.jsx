@@ -1,28 +1,3 @@
-// import React, { useState } from 'react';
-// import { Navigate } from 'react-router-dom';
-// import Header from '../Home/Header';
-// import axios from 'axios';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { axios_url } from '../../API/axios';
-// import Footer from '../Home/Footer';
-
-// const OrganizerSignup = () => {
-//   const navigate = useNavigate();
-
-//   const [formData, setFormData] = useState({
-//     name: '',
-//     surname: '',
-//     email: '',
-//     phoneNumber: '',
-//     password: '',
-//     gender: 'male', // Default value
-//     dateOfBirth: ''
-//   });
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prev) => ({
-//       ...prev,
 //       [name]: value
 //     }));
 //   };
@@ -183,7 +158,7 @@ const OrganizerSignup = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const [formData, setFormData] = useState({
-    name: '',
+    Name: '',
     surname: '',
     email: '',
     phoneNumber: '',
@@ -206,10 +181,10 @@ const OrganizerSignup = () => {
     setErrorMsg('');
     
     try {
-      const response = await axios.post(`${axios_url}/Organizer/organizerSignup`, formData);
+      const response = await axios.post(`${axios_url}/Organizer/OrganizerSignup`, formData);
       console.log("Server Response:", response.data);
       alert("Organizer registration successful!");
-      navigate("/organizerLogin");
+      navigate("/auth/organizer/login");
     } catch (error) {
       console.log("Error", error);
       const msg = error.response?.data?.message || "Organizer registration failed!";
@@ -252,7 +227,7 @@ const OrganizerSignup = () => {
                 <div>
                   <label className="block text-sm font-medium text-[#5a6b47] mb-2">First Name</label>
                   <input
-                    name="name"
+                    name="Name"
                     type="text"
                     onChange={handleChange}
                     value={formData.name}
