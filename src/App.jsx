@@ -13,6 +13,8 @@ import UserProfile from './components/User/UserProfile';
 import OrganizerSignup from './components/Organizer/OrganizerSignup';
 import OrganizerLogin from './components/Organizer/OrganizerLogin';
 import OrganizerProfile from './components/Organizer/OrganizerProfile';
+import UserEmailVerify from './components/User/UserEmailVerify.jsx';
+import OrganizerEmailVerify from './components/Organizer/OrganizerEmailVerify.jsx';
 import AuthContext, { AuthProvider } from "./context/AuthContext.jsx";
 import ProtectedRoute from "./context/protectedRoute.jsx";
 import AdminDashborad from './components/Admin/AdminDahsboard.jsx';
@@ -20,6 +22,9 @@ import AllUsers from './components/Admin/AllUsers.jsx';
 import AllOrganizers from './components/Admin/AllOrganizers.jsx';
 import OrganizerDashboard from './components/Organizer/OrganizerDashboard.jsx';
 import UserDashboard from './components/User/UserDashboard.jsx';
+import NotVerifiedOrganizers from './components/Admin/NotVerifiedOrganizers.jsx';
+import UserForgotPaasword from "./components/User/UserForgotPassword.jsx"
+import OrganizerForgotPassword from "./components/Organizer/OrganizerForgotPassword.jsx"
 
 
 function App() {
@@ -49,12 +54,16 @@ function App() {
           <Route path="user">
             <Route path="login" element={<UserLogin />} />
             <Route path="signup" element={<UserSignup />} />
+            <Route path="verify-email" element={<UserEmailVerify />} />
+            <Route path="forgot-password" element={<UserForgotPaasword />} />
           </Route>
           
           {/* Organizer Auth */}
           <Route path="organizer">
             <Route path="login" element={<OrganizerLogin />} />
             <Route path="signup" element={<OrganizerSignup />} />
+            <Route path="verify-email" element={<OrganizerEmailVerify />} />
+            <Route path="forgot-password" element={<OrganizerForgotPassword />} />
           </Route>
         </Route>
 
@@ -91,6 +100,7 @@ function App() {
           <Route path='dashboard' element={<AdminDashborad />} />
           <Route path='allUsers' element={<AllUsers/>}/>
           <Route path='allOrganizers' element={<AllOrganizers/>}/>
+          <Route path='not-verified-organizers' element={<NotVerifiedOrganizers/>}/>
           {/* Add more admin routes here */}
         </Route>
 

@@ -82,11 +82,20 @@ const UserProfile = () => {
                     {/* Profile Header */}
                     <div className="bg-[#8C9F6E] px-6 py-8 text-center">
                         <div className="w-32 h-32 mx-auto rounded-full bg-white p-1 shadow-lg">
-                            <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
-                                <span className="text-4xl text-[#5a6b47] font-bold">
-                                    {profile?.name?.charAt(0)?.toUpperCase() || 'U'}
-                                </span>
-                            </div>
+                            {profile?.profilePhoto?.url ? (
+                                <img
+                                  src={profile.profilePhoto.url}
+                                  alt={profile?.name || 'Profile photo'}
+                                  className="w-full h-full rounded-full object-cover"
+                                  referrerPolicy="no-referrer"
+                                />
+                            ) : (
+                                <div className="w-full h-full rounded-full bg-gray-200 flex items-center justify-center">
+                                    <span className="text-4xl text-[#5a6b47] font-bold">
+                                        {profile?.name?.charAt(0)?.toUpperCase() || 'U'}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                         <h1 className="text-2xl font-bold text-white mt-4">{profile?.name || 'User'}</h1>
                         <p className="text-white/90">{profile?.email || ''}</p>
@@ -94,7 +103,6 @@ const UserProfile = () => {
                             {profile?.type?.toUpperCase() || 'USER'}
                         </span>
                     </div>
-
                     {/* Profile Details */}
                     <div className="p-6">
                         <h2 className="text-xl font-semibold text-gray-800 mb-4">Profile Information</h2>

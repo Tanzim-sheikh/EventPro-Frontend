@@ -112,7 +112,6 @@ const AdminDashborad = () => {
             </div>
           </div>
         </div>
-
         {/* Quick Actions */}
         <div className="px-4 sm:px-6 lg:px-8 pb-16">
           <div className="mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -133,7 +132,15 @@ const AdminDashborad = () => {
                 gradient: 'from-[#06b6d4] to-[#0ea5e9]'
               }
             ].map((item, idx) => (
-              <div key={idx} className={`rounded-2xl p-[1px] bg-gradient-to-r ${item.gradient} shadow-xl`}>
+              <div
+                key={idx}
+                className={`rounded-2xl p-[1px] bg-gradient-to-r ${item.gradient} shadow-xl cursor-pointer`}
+                onClick={() => {
+                  if (item.title === 'Verify Organizer') {
+                    Navigate('/admin/not-verified-organizers');
+                  }
+                }}
+              >
                 <div className="rounded-2xl bg-white/80 backdrop-blur-sm p-6 flex items-start gap-4">
                   <div className={`h-12 w-12 rounded-xl bg-gradient-to-br ${item.gradient} shadow-md`}></div>
                   <div>
@@ -149,6 +156,5 @@ const AdminDashborad = () => {
     </>
   );
 };
-  
   export default AdminDashborad;
   

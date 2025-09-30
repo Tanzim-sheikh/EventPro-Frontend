@@ -14,6 +14,7 @@ const OrganizerLogin = () => {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
   
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +35,13 @@ const OrganizerLogin = () => {
     try {
       const response = await axios.post(`${axios_url}/Organizer/OrganizerLogin`, formData);
       console.log("Login response:", response.data);
-      
+
+      if (response.data?.requiresVerification) {
+        setErrorMsg(response.data?.message || 'Please verify your email.');
+        navigate('/auth/organizer/verify-email', { state: { email: response.data?.email || formData.email } });
+        return;
+      }
+
       if(response.data.token) {
         // Use the auth context login method with the actual organizer type from backend
         login(response.data.organizer, response.data.token, response.data.type || response.data.organizer.type);
@@ -98,23 +105,40 @@ const OrganizerLogin = () => {
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
-                <div className="mt-1">
+                <div className="mt-1 relative">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     autoComplete="current-password"
                     required
                     value={formData.password}
                     onChange={handleChange}
-                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#8C9F6E] focus:border-[#8C9F6E] sm:text-sm"
+                    className="appearance-none block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#8C9F6E] focus:border-[#8C9F6E] sm:text-sm"
                   />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    onClick={() => setShowPassword((p) => !p)}
+                    className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500 hover:text-gray-700"
+                  >
+                    {showPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                        <path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-10-8-10-8a21.77 21.77 0 015.06-6.94M9.9 4.24A10.94 10.94 0 0112 4c7 0 10 8 10 8a21.82 21.82 0 01-3.22 4.49M1 1l22 22" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                        <path d="M1 12s3-8 11-8 11 8 11 8-3 8-11 8S1 12 1 12z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
-                  <Link to="/forgot-password" className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]">
+                  <Link to="/auth/organizer/forgot-password" className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]">
                     Forgot your password?
                   </Link>
                 </div>

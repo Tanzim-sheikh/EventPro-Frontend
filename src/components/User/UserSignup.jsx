@@ -87,11 +87,14 @@ const UserSignup = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    profilePhoto: null,
+    profilePreviewUrl: ''
   });
 
   const handleChange = (e) => {
@@ -102,16 +105,36 @@ const UserSignup = () => {
     }));
   };
 
+  const handleFile = (e) => {
+    const { name, files } = e.target;
+    if (files && files[0]) {
+      const file = files[0];
+      const previewUrl = URL.createObjectURL(file);
+      setFormData((prev) => ({ ...prev, [name]: file, profilePreviewUrl: previewUrl }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrorMsg('');
     
     try {
-      const response = await axios.post(`${axios_url}/User/userSignup`, formData);
+      const fd = new FormData();
+      fd.append('name', formData.name);
+      fd.append('email', formData.email);
+      fd.append('password', formData.password);
+      if (formData.profilePhoto) {
+        fd.append('profilePhoto', formData.profilePhoto);
+      }
+
+      const response = await axios.post(`${axios_url}/User/userSignup`, fd, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        withCredentials: true
+      });
       console.log("Server Response:", response.data);
-      alert("Hey! Your registration is successful!");
-      navigate("/userLogin");
+      alert("Hey! Your registration is successful! Please verify your email.");
+      navigate("/auth/user/verify-email", { state: { email: formData.email } });
     } catch (error) {
       console.log("Error", error);
       const msg = error.response?.data?.message || "Registration failed. Please try again!";
@@ -186,19 +209,67 @@ const UserSignup = () => {
                 <label htmlFor="password" className="block text-sm font-medium text-[#5a6b47] mb-2">
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder='Create a password'
-                  className="w-full px-4 py-3 border border-[#dbe4d3] rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:border-[#8C9F6E] transition-colors duration-200"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder='Create a password'
+                    className="w-full px-4 py-3 pr-10 border border-[#dbe4d3] rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:border-[#8C9F6E] transition-colors duration-200"
+                    required
+                  />
+                  <button
+                    type="button"
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    onClick={() => setShowPassword((p) => !p)}
+                    className="absolute inset-y-0 right-0 px-3 flex items-center text-[#5a6b47] hover:text-[#374151]"
+                  >
+                    {showPassword ? (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                        <path d="M17.94 17.94A10.94 10.94 0 0112 20c-7 0-10-8-10-8a21.77 21.77 0 015.06-6.94M9.9 4.24A10.94 10.94 0 0112 4c7 0 10 8 10 8a21.82 21.82 0 01-3.22 4.49M1 1l22 22" />
+                      </svg>
+                    ) : (
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                        <path d="M1 12s3-8 11-8 11 8 11 8-3 8-11 8S1 12 1 12z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    )}
+                  </button>
+                </div>
                 <p className="mt-1 text-xs text-[#5a6b47]">
                   Use at least 8 characters with a mix of letters and numbers
                 </p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-[#5a6b47] mb-2">Profile Photo (optional)</label>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-full bg-white border border-[#dbe4d3] overflow-hidden flex items-center justify-center">
+                    {formData.profilePreviewUrl ? (
+                      <img src={formData.profilePreviewUrl} alt="Preview" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#8C9F6E]">IMG</div>
+                    )}
+                  </div>
+                  <div>
+                    <label htmlFor="profilePhoto" className="inline-flex items-center px-4 py-2 bg-[#8C9F6E] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
+                      Upload Photo
+                    </label>
+                    <input
+                      id="profilePhoto"
+                      name="profilePhoto"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFile}
+                      className="hidden"
+                    />
+                    {formData.profilePhoto && (
+                      <p className="mt-1 text-xs text-gray-500">{formData.profilePhoto.name}</p>
+                    )}
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center">
