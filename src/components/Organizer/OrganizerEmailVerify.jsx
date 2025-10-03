@@ -43,7 +43,7 @@ const OrganizerEmailVerify = () => {
       <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-[#8C9F6E] rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-[#A3B886] rounded-2xl flex items-center justify-center shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 12H8m8 0a4 4 0 10-8 0 4 4 0 008 0zM12 14v4m6-10l-1.5 1.5M6 8L4.5 9.5" />
               </svg>
@@ -93,7 +93,7 @@ const OrganizerEmailVerify = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 px-4 bg-[#8C9F6E] text-white font-semibold rounded-lg shadow-md hover:bg-[#7a8c5e] transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 px-4 bg-[#A3B886] text-white font-semibold rounded-lg shadow-md hover:bg-[#7a8c5e] transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? 'Verifying…' : 'Verify Email'}
                 </button>

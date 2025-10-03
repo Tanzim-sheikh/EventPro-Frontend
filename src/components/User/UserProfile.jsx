@@ -80,7 +80,7 @@ const UserProfile = () => {
             <div className="max-w-3xl mx-auto">
                 <div className="bg-white shadow rounded-lg overflow-hidden">
                     {/* Profile Header */}
-                    <div className="bg-[#8C9F6E] px-6 py-8 text-center">
+                    <div className="bg-[#A3B886] px-6 py-8 text-center">
                         <div className="w-32 h-32 mx-auto rounded-full bg-white p-1 shadow-lg">
                             {profile?.profilePhoto?.url ? (
                                 <img
@@ -135,7 +135,7 @@ const UserProfile = () => {
                         <div className="mt-8 flex justify-end">
                             <button 
                                 onClick={() => navigate('/profile/edit')}
-                                className="px-4 py-2 bg-[#8C9F6E] text-white rounded-md hover:bg-[#7a8a5f] transition-colors"
+                                className="px-4 py-2 bg-[#A3B886] text-white rounded-md hover:bg-[#7a8a5f] transition-colors"
                             >
                                 Edit Profile
                             </button>

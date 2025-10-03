@@ -239,7 +239,7 @@ const OrganizerSignup = () => {
       <div className="min-h-screen bg-white flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 bg-[#8C9F6E] rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-[#A3B886] rounded-2xl flex items-center justify-center shadow-lg">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
@@ -387,11 +387,11 @@ const OrganizerSignup = () => {
                       {formData.profilePreviewUrl ? (
                         <img src={formData.profilePreviewUrl} alt="Preview" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#8C9F6E]">IMG</div>
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#A3B886]">IMG</div>
                       )}
                     </div>
                     <div>
-                      <label htmlFor="profilePhoto" className="inline-flex items-center px-4 py-2 bg-[#8C9F6E] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
+                      <label htmlFor="profilePhoto" className="inline-flex items-center px-4 py-2 bg-[#A3B886] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
                         Upload Photo
                       </label>
                       <input
@@ -415,11 +415,11 @@ const OrganizerSignup = () => {
                       {formData.aadharPreviewUrl ? (
                         <img src={formData.aadharPreviewUrl} alt="Aadhar Preview" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#8C9F6E] text-xs">DOC</div>
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#A3B886] text-xs">DOC</div>
                       )}
                     </div>
                     <div>
-                      <label htmlFor="aadharDoc" className="inline-flex items-center px-4 py-2 bg-[#8C9F6E] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
+                      <label htmlFor="aadharDoc" className="inline-flex items-center px-4 py-2 bg-[#A3B886] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
                         Upload Aadhar
                       </label>
                       <input
@@ -446,11 +446,11 @@ const OrganizerSignup = () => {
                       {formData.panPreviewUrl ? (
                         <img src={formData.panPreviewUrl} alt="PAN Preview" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#8C9F6E] text-xs">DOC</div>
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#A3B886] text-xs">DOC</div>
                       )}
                     </div>
                     <div>
-                      <label htmlFor="panDoc" className="inline-flex items-center px-4 py-2 bg-[#8C9F6E] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
+                      <label htmlFor="panDoc" className="inline-flex items-center px-4 py-2 bg-[#A3B886] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
                         Upload PAN
                       </label>
                       <input
@@ -474,11 +474,11 @@ const OrganizerSignup = () => {
                       {formData.gstPreviewUrl ? (
                         <img src={formData.gstPreviewUrl} alt="GST Preview" className="w-full h-full object-cover" />
                       ) : (
-                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#8C9F6E] text-xs">DOC</div>
+                        <div className="w-full h-full bg-gray-100 flex items-center justify-center text-[#A3B886] text-xs">DOC</div>
                       )}
                     </div>
                     <div>
-                      <label htmlFor="gstDoc" className="inline-flex items-center px-4 py-2 bg-[#8C9F6E] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
+                      <label htmlFor="gstDoc" className="inline-flex items-center px-4 py-2 bg-[#A3B886] text-white text-sm font-medium rounded-md shadow hover:bg-[#7a8c5e] cursor-pointer transition-colors">
                         Upload GST
                       </label>
                       <input
@@ -502,12 +502,12 @@ const OrganizerSignup = () => {
                   id="terms"
                   name="terms"
                   type="checkbox"
-                  className="h-4 w-4 text-[#8C9F6E] focus:ring-[#8C9F6E] border-gray-300 rounded"
+                  className="h-4 w-4 text-[#A3B886] focus:ring-[#8C9F6E] border-gray-300 rounded"
                   required
                 />
                 <label htmlFor="terms" className="ml-2 block text-sm text-[#5a6b47]">
                   I agree to the{' '}
-                  <Link to="/terms" className="text-[#8C9F6E] hover:text-[#7a8c5e] font-medium">
+                  <Link to="/terms" className="text-[#A3B886] hover:text-[#7a8c5e] font-medium">
                     Terms and Conditions
                   </Link>
                 </label>
@@ -517,7 +517,7 @@ const OrganizerSignup = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 px-4 bg-[#8C9F6E] text-white font-semibold rounded-lg shadow-md hover:bg-[#7a8c5e] transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 px-4 bg-[#A3B886] text-white font-semibold rounded-lg shadow-md hover:bg-[#7a8c5e] transition-all duration-300 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#8C9F6E] focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <span className="flex items-center justify-center">
@@ -537,19 +537,19 @@ const OrganizerSignup = () => {
             <div className="mt-6 text-center text-sm space-y-2">
               <p className="text-[#5a6b47]">
                 Already have an organizer account?{' '}
-                <Link to="/organizerLogin" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
+                <Link to="/organizerLogin" className="font-medium text-[#A3B886] hover:text-[#7a8c5e] transition-colors duration-200">
                   Login here
                 </Link>
               </p>
               <p className="text-[#5a6b47]">
                 Want to attend events?{' '}
-                <Link to="/userSignup" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e] transition-colors duration-200">
+                <Link to="/userSignup" className="font-medium text-[#A3B886] hover:text-[#7a8c5e] transition-colors duration-200">
                   Sign up as User
                 </Link>
               </p>
               <p className="text-[#5a6b47]">
                 By registering, you agree to our{' '}
-                <Link to="/privacy" className="font-medium text-[#8C9F6E] hover:text-[#7a8c5e]">
+                <Link to="/privacy" className="font-medium text-[#A3B886] hover:text-[#7a8c5e]">
                   Privacy Policy
                 </Link>
               </p>

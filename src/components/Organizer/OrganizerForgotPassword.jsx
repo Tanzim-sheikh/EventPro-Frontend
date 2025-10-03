@@ -95,7 +95,7 @@ const OrganizerForgotPassword = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#7a8a5f] disabled:opacity-50"
+                  className="w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#7a8a5f] disabled:opacity-50"
                 >
                   {isLoading ? 'Sending...' : 'Send OTP'}
                 </button>
@@ -165,7 +165,7 @@ const OrganizerForgotPassword = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#7a8a5f] disabled:opacity-50"
+                  className="w-full mt-4 flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#7a8a5f] disabled:opacity-50"
                 >
                   {isLoading ? 'Resetting...' : 'Reset Password'}
                 </button>
@@ -174,7 +174,7 @@ const OrganizerForgotPassword = () => {
 
             <p className="mt-6 text-center text-sm text-gray-600">
               Remembered your password?{' '}
-              <Link to="/auth/organizer/login" className="font-medium text-[#8C9F6E] hover:text-[#7a8a5f]">
+              <Link to="/auth/organizer/login" className="font-medium text-[#A3B886] hover:text-[#7a8a5f]">
                 Login
               </Link>
             </p>

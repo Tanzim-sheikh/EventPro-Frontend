@@ -1,28 +1,38 @@
 import React from "react";
+import logo from "../../assets/letter-e.png";
+import { FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#8C9F6E] text-white px-6 py-12 md:px-16">
+    <footer className="w-full bg-[#A3B886] text-white px-6 py-12 md:px-16">
       <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Brand */}
         <div>
-          <h2 className="text-2xl font-extrabold font-audiowide mb-4">
-            EventPro
-          </h2>
+          <div className="mb-4 flex items-center gap-2">
+            <img
+              src={logo}
+              alt="Evenza Logo"
+              className="h-10 w-auto object-contain"
+            />
+            <span className="text-2xl font-extrabold font-audiowide">Evenza</span>
+          </div>
           <p className="text-sm leading-relaxed mb-6">
             Your trusted platform to create, organize and manage events
             effortlessly.
           </p>
           <div className="flex gap-4">
-            {["twitter", "facebook", "instagram", "linkedin"].map((icon) => (
-              <a
-                key={icon}
-                href="#"
-                className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#8C9F6E] hover:bg-[#6e8151] hover:text-white transition"
-              >
-                <i className={`fab fa-${icon}`}></i>
-              </a>
-            ))}
+            <a href="#" aria-label="Twitter" className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#A3B886] hover:bg-[#6e8151] hover:text-white transition">
+              <FaTwitter />
+            </a>
+            <a href="#" aria-label="Facebook" className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#A3B886] hover:bg-[#6e8151] hover:text-white transition">
+              <FaFacebook />
+            </a>
+            <a href="#" aria-label="Instagram" className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#A3B886] hover:bg-[#6e8151] hover:text-white transition">
+              <FaInstagram />
+            </a>
+            <a href="#" aria-label="LinkedIn" className="w-10 h-10 flex items-center justify-center rounded-full bg-white text-[#A3B886] hover:bg-[#6e8151] hover:text-white transition">
+              <FaLinkedin />
+            </a>
           </div>
         </div>
 
@@ -99,7 +109,7 @@ const Footer = () => {
               placeholder="Your email"
               className="flex-1 px-4 py-2 rounded-md bg-[#e2ead5] text-[#5a6b47] placeholder-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-orange-300"
             />
-            <button className="px-5 py-2 bg-white text-[#8C9F6E] font-semibold rounded-md hover:bg-orange-400 hover:text-white transition">
+            <button className="px-5 py-2 bg-white text-[#A3B886] font-semibold rounded-md hover:bg-orange-400 hover:text-white transition">
               Subscribe
             </button>
           </div>
@@ -109,7 +119,7 @@ const Footer = () => {
       {/* Bottom */}
       <div className="border-t border-[#a8b892] mt-10 pt-6 flex flex-col md:flex-row justify-between items-center text-sm">
         <p>
-          &copy; {new Date().getFullYear()} EventPro. All rights reserved.
+          &copy; {new Date().getFullYear()} Evenza. All rights reserved.
         </p>
         <div className="flex gap-6 mt-4 md:mt-0">
           <a href="#" className="hover:text-orange-300 transition">
@@ -185,7 +195,7 @@ export default Footer;
 //                 <span className="text-[#5a6b47] font-bold text-lg">E</span>
 //               </div>
 //               <h2 className="text-2xl font-bold bg-gradient-to-r from-[#f5d56e] to-[#f8c762] bg-clip-text text-transparent">
-//                 EventPro
+//                 Evenza
 //               </h2>
 //             </div>
 //             <p className="text-[#e2ead5] leading-relaxed mb-6 max-w-md">
@@ -270,7 +280,7 @@ export default Footer;
 //         {/* Bottom */}
 //         <div className="border-t border-[#6e8151] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
 //           <p className="text-[#a8b892] text-sm mb-4 md:mb-0">
-//             &copy; {new Date().getFullYear()} EventPro. All rights reserved.
+//             &copy; {new Date().getFullYear()} Evenza. All rights reserved.
 //           </p>
 //           <div className="flex flex-wrap gap-5 justify-center">
 //             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (

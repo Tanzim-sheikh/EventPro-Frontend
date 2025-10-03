@@ -136,7 +136,7 @@ const AllOrganizers = () => {
                                                     <tr>
                                                         <td colSpan="8" className="px-6 py-12 text-center">
                                                             <div className="text-[#5a6b47]/60">
-                                                                <svg className="mx-auto h-12 w-12 text-[#8C9F6E]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <svg className="mx-auto h-12 w-12 text-[#A3B886]/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                 </svg>
                                                                 <h3 className="mt-2 text-sm font-medium text-[#2b3a2e]">No organizers found</h3>

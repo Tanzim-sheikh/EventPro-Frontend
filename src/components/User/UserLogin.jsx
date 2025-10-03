@@ -67,7 +67,7 @@ const UserLogin = () => {
             Or{' '}
             <Link 
               to="/auth/user/signup" 
-              className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]"
+              className="font-medium text-[#A3B886] hover:text-[#A3B886]"
             >
               create a new account
             </Link>
@@ -138,7 +138,7 @@ const UserLogin = () => {
 
               <div className="flex items-center justify-between">
                 <div className="text-sm">
-                  <Link to="/auth/user/forgot-password" className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]">
+                  <Link to="/auth/user/forgot-password" className="font-medium text-[#A3B886] hover:text-[#A3B886]">
                     Forgot your password?
                   </Link>
                 </div>
@@ -148,7 +148,7 @@ const UserLogin = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#7a8a5f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E] disabled:opacity-50"
+                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#7a8a5f] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E] disabled:opacity-50"
                 >
                   {isLoading ? 'Signing in...' : 'Sign in'}
                 </button>

@@ -30,14 +30,14 @@
         
 //         {/* Left Content */}
 //         <div className="flex-1 flex flex-col gap-6 max-sm:text-center">
-//           <h1 className="text-5xl font-extrabold text-[#8C9F6E] mb-2 leading-tight font-audiowide">
-//             EventPro
+//           <h1 className="text-5xl font-extrabold text-[#A3B886] mb-2 leading-tight font-audiowide">
+//             Evenza
 //           </h1>
 //           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
 //             Book, Create, and Manage Events Effortlessly
 //           </h2>
 //           <p className="text-lg text-gray-700 mb-2 leading-relaxed">
-//             <span className="font-semibold text-[#8C9F6E]">EventPro</span> is your one-stop platform for all things events. 
+//             <span className="font-semibold text-[#A3B886]">Evenza</span> is your one-stop platform for all things events. 
 //             Whether you want to <span className="font-semibold">book</span> a wedding hall, 
 //             <span className="font-semibold"> host</span> a conference, or 
 //             <span className="font-semibold"> manage</span> your own parties, we make it easy, fast, and professional.
@@ -52,7 +52,7 @@
 //           </ul>
 
 //           <div className="font-audiowide flex flex-wrap gap-4 mt-2 max-sm:justify-center">
-//             <button onClick={()=>navigate('/userSignup')} className="px-8 py-3 text-lg rounded-xl bg-[#8C9F6E] text-white font-semibold hover:bg-[#7c8e62] transition-transform hover:scale-105">
+//             <button onClick={()=>navigate('/userSignup')} className="px-8 py-3 text-lg rounded-xl bg-[#A3B886] text-white font-semibold hover:bg-[#7c8e62] transition-transform hover:scale-105">
 //               Create Event
 //             </button>
 //             <button className="px-8 py-3 text-lg rounded-xl bg-black text-white font-semibold hover:bg-[#333] transition-transform hover:scale-105">
@@ -72,7 +72,7 @@
 //             {/* Prev Button */}
 //             <button
 //               onClick={prevSlide}
-//               className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-[#8C9F6E]/40 text-black rounded-full p-2 z-10 transition"
+//               className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-[#A3B886]/40 text-black rounded-full p-2 z-10 transition"
 //               aria-label="Previous"
 //             >
 //               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@
 //             {/* Next Button */}
 //             <button
 //               onClick={nextSlide}
-//               className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-[#8C9F6E]/40 text-black rounded-full p-2 z-10 transition"
+//               className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-[#A3B886]/40 text-black rounded-full p-2 z-10 transition"
 //               aria-label="Next"
 //             >
 //               <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -94,7 +94,7 @@
 //               {images.map((_, idx) => (
 //                 <span
 //                   key={idx}
-//                   className={`w-3 h-3 rounded-full ${idx === current ? 'bg-[#8C9F6E]' : 'bg-gray-300'} transition-all duration-300`}
+//                   className={`w-3 h-3 rounded-full ${idx === current ? 'bg-[#A3B886]' : 'bg-gray-300'} transition-all duration-300`}
 //                 />
 //               ))}
 //             </div>
@@ -134,7 +134,7 @@
 //               data-aos-delay={idx * 100}
 //               className="bg-white rounded-2xl p-10 flex flex-col items-center text-center hover:shadow-xl hover:scale-105 transition-transform"
 //             >
-//               <svg className="w-14 h-14 text-[#8C9F6E] mb-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+//               <svg className="w-14 h-14 text-[#A3B886] mb-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
 //                 <path strokeLinecap="round" strokeLinejoin="round" d={feature.icon} />
 //               </svg>
 //               <h3 className="font-audiowide font-bold text-xl mb-3 text-gray-900">{feature.title}</h3>
@@ -174,7 +174,7 @@ const Events = () => {
 
   return (
     <div
-      className="min-h-screen w-full relative flex flex-col z-[-1]"
+      className="min-h-screen w-full relative flex flex-col z-0"
       id="Events"
       style={{
         backgroundImage: `url(${EventsImg2})`, // background image
@@ -191,12 +191,12 @@ const Events = () => {
         {/* Left Text Section */}
         <div data-aos="fade-right" className="flex-1 text-white space-y-6 lg:pr-10">
           <h1 className="text-5xl font-extrabold leading-tight font-audiowide">
-            Welcome to <span className="text-[#8C9F6E]">EventPro</span>
+            Welcome to <span className="text-[#A3B886]">Evenza</span>
           </h1>
           <p className="text-lg leading-relaxed">
-            The ultimate platform to <span className="font-bold text-[#8C9F6E]">Book</span>,{" "}
-            <span className="font-bold text-[#8C9F6E]">Host</span> and{" "}
-            <span className="font-bold text-[#8C9F6E]">Manage</span> events effortlessly.
+            The ultimate platform to <span className="font-bold text-[#A3B886]">Book</span>,{" "}
+            <span className="font-bold text-[#A3B886]">Host</span> and{" "}
+            <span className="font-bold text-[#A3B886]">Manage</span> events effortlessly.
           </p>
 
           <ul className="space-y-2 text-gray-200">
@@ -209,7 +209,7 @@ const Events = () => {
           <div className="flex gap-4 pt-4">
             <button
               onClick={() => navigate("/userSignup")}
-              className="px-8 py-3 text-lg rounded-xl bg-[#8C9F6E] text-white font-semibold hover:bg-[#7c8e62] transition-transform hover:scale-105"
+              className="px-8 py-3 text-lg rounded-xl bg-[#A3B886] text-white font-semibold hover:bg-[#7c8e62] transition-transform hover:scale-105"
             >
               Create Event
             </button>
@@ -221,7 +221,7 @@ const Events = () => {
 
         {/* Right Slider Section */}
         <div data-aos="fade-left" className="flex-1 mt-10 lg:mt-0 flex items-center justify-center">
-          <div className="relative w-full max-w-lg h-72 md:h-96 rounded-2xl overflow-hidden shadow-lg">
+          <div className="relative w-full max-w-lg h-72 md:h-96 rounded-2xl overflow-hidden shadow-lg z-10">
             <img
               src={images[current]}
               alt={`Event ${current + 1}`}
@@ -231,7 +231,7 @@ const Events = () => {
             {/* Prev Button */}
             <button
               onClick={prevSlide}
-              className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#8C9F6E]/60 text-white rounded-full p-2 transition"
+              className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#A3B886]/60 text-white rounded-full p-2 transition z-20"
               aria-label="Previous"
             >
               ❮
@@ -239,7 +239,7 @@ const Events = () => {
             {/* Next Button */}
             <button
               onClick={nextSlide}
-              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#8C9F6E]/60 text-white rounded-full p-2 transition"
+              className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-[#A3B886]/60 text-white rounded-full p-2 transition z-20"
               aria-label="Next"
             >
               ❯
@@ -250,7 +250,7 @@ const Events = () => {
               {images.map((_, idx) => (
                 <span
                   key={idx}
-                  className={`w-3 h-3 rounded-full ${idx === current ? "bg-[#8C9F6E]" : "bg-gray-400"} transition`}
+                  className={`w-3 h-3 rounded-full ${idx === current ? "bg-[#A3B886]" : "bg-gray-400"} transition`}
                 />
               ))}
             </div>

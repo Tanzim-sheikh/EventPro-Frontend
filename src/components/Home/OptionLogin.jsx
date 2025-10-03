@@ -40,7 +40,7 @@ const OptionLogin = () => {
                 onClick={() => setActiveTab('user')}
                 className={`flex-1 py-2 px-4 rounded-l-md text-sm font-medium ${
                   activeTab === 'user'
-                    ? 'bg-[#8C9F6E] text-white'
+                    ? 'bg-[#A3B886] text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -50,7 +50,7 @@ const OptionLogin = () => {
                 onClick={() => setActiveTab('organizer')}
                 className={`flex-1 py-2 px-4 text-sm font-medium ${
                   activeTab === 'organizer'
-                    ? 'bg-[#8C9F6E] text-white'
+                    ? 'bg-[#A3B886] text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -60,7 +60,7 @@ const OptionLogin = () => {
                 onClick={() => setActiveTab('admin')}
                 className={`flex-1 py-2 px-4 rounded-r-md text-sm font-medium ${
                   activeTab === 'admin'
-                    ? 'bg-[#8C9F6E] text-white'
+                    ? 'bg-[#A3B886] text-white'
                     : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                 }`}
               >
@@ -78,7 +78,7 @@ const OptionLogin = () => {
                   </p>
                   <button
                     onClick={handleUserLogin}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#A3B886] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
                   >
                     Continue as User
                   </button>
@@ -91,7 +91,7 @@ const OptionLogin = () => {
                   </p>
                   <button
                     onClick={handleOrganizerLogin}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#A3B886] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
                   >
                     Continue as Organizer
                   </button>
@@ -104,7 +104,7 @@ const OptionLogin = () => {
                   </p>
                   <button
                     onClick={handleAdminLogin}
-                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#8C9F6E] hover:bg-[#8C9F6E] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
+                    className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#A3B886] hover:bg-[#A3B886] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#8C9F6E]"
                   >
                     Continue as Admin
                   </button>
@@ -116,7 +116,7 @@ const OptionLogin = () => {
                   Don't have an account?{' '}
                   <button
                     onClick={() => navigate(activeTab === 'user' ? '/auth/user/signup' : activeTab === 'organizer' ? '/auth/organizer/signup' : '/auth/user/signup')}
-                    className="font-medium text-[#8C9F6E] hover:text-[#8C9F6E]"
+                    className="font-medium text-[#A3B886] hover:text-[#A3B886]"
                   >
                     Sign up
                   </button>

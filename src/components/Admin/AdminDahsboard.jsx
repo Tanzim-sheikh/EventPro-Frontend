@@ -81,7 +81,7 @@ const AdminDashborad = () => {
               </div>
             </div>
 
-            <div className="group rounded-2xl p-[1px] bg-gradient-to-br from-[#f59e0b] via-[#fbbf24] to-[#ef4444] shadow-[0_10px_30px_rgba(251,191,36,0.25)]">
+            <div onClick={()=>Navigate("/admin/allEvents")} className="group rounded-2xl p-[1px] bg-gradient-to-br from-[#f59e0b] via-[#fbbf24] to-[#ef4444] shadow-[0_10px_30px_rgba(251,191,36,0.25)]">
               <div className="rounded-2xl h-full w-full bg-white/80 backdrop-blur-sm p-5 flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#f59e0b] to-[#ef4444] text-white shadow-lg">

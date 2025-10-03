@@ -84,7 +84,7 @@
 //   return (
 //     <header 
 //       id="Home" 
-//       className="sticky top-0 z-10 bg-[#8C9F6E] font-audiowide pb-3 overflow-visible"
+//       className="sticky top-0 z-10 bg-[#A3B886] font-audiowide pb-3 overflow-visible"
 //       data-aos="fade-down"
 //       data-aos-duration="1000"
 //     >
@@ -101,7 +101,7 @@
 //             data-aos-delay="200"
 //           >
 //             <h1 className="text-2xl font-bold text-white tracking-wide hover:cursor-pointer">
-//               EventPro
+//               Evenza
 //             </h1>
 //           </Link>
 
@@ -151,9 +151,9 @@
 //               <button
 //                 ref={userMenuButtonRef}
 //                 onClick={() => setIsUserMenuOpen((prev) => !prev)}
-//                 className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-gray-100 transition"
+//                 className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold hover:bg-gray-100 transition"
 //               >
-//                 <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#8C9F6E] text-white">
+//                 <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#A3B886] text-white">
 //                   {(user.name || user.Name || 'U').charAt(0).toUpperCase()}
 //                 </span>
 //                 <span>{user.name || user.Name || 'User'}</span>
@@ -175,14 +175,14 @@
 //                     <Link
 //                       to={`/${user.type?.toLowerCase() || 'user'}`}
 //                       onClick={() => setIsUserMenuOpen(false)}
-//                       className="block px-4 py-2 text-sm text-center text-[#8C9F6E] hover:bg-gray-100"
+//                       className="block px-4 py-2 text-sm text-center text-[#A3B886] hover:bg-gray-100"
 //                     >
 //                       {(user.type|| 'User')} Dashboard
 //                     </Link>
 //                     <Link
 //                       to={`/${user.type?.toLowerCase() || 'user'}/profile`}
 //                       onClick={() => setIsUserMenuOpen(false)}
-//                       className="block px-4 py-2 text-sm text-center text-[#8C9F6E] hover:bg-gray-100"
+//                       className="block px-4 py-2 text-sm text-center text-[#A3B886] hover:bg-gray-100"
 //                     >
 //                       My Profile
 //                     </Link>
@@ -206,7 +206,7 @@
 //             <React.Fragment>
 //               <button
 //                 onClick={() => navigate("/auth/login")}
-//                 className="px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-[#8C9F6E] hover:text-white border border-[#8C9F6E] transition"
+//                 className="px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold hover:bg-[#A3B886] hover:text-white border border-[#8C9F6E] transition"
 //               >
 //                 Login
 //               </button>
@@ -258,7 +258,7 @@
 //         {/* Mobile Navigation */}
 //         {isMenuOpen && (
 //           <div 
-//             className="md:hidden bg-[#8C9F6E] border-t border-black relative z-50"
+//             className="md:hidden bg-[#A3B886] border-t border-black relative z-50"
 //             data-aos="fade-down"
 //             data-aos-duration="500"
 //           >
@@ -267,25 +267,25 @@
 //                 href="#Home"
 //               onClick={() => {
 //                 navigate("/");}}
-//                 className="bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+//                 className="bg-white text-[#A3B886] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
 //               >
 //                 Home
 //               </a>
 //               <button
 //                 onClick={() => { handleNavToSection('Events'); setIsMenuOpen(false); }}
-//                 className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+//                 className="w-full text-center bg-white text-[#A3B886] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
 //               >
 //                 Events
 //               </button>
 //               <button
 //                 onClick={() => { handleNavToSection('About'); setIsMenuOpen(false); }}
-//                 className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+//                 className="w-full text-center bg-white text-[#A3B886] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
 //               >
 //                 About
 //               </button>
 //               <button
 //                 onClick={() => { handleNavToSection('Contact'); setIsMenuOpen(false); }}
-//                 className="w-full text-center bg-white text-[#8C9F6E] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
+//                 className="w-full text-center bg-white text-[#A3B886] rounded-lg hover:text-black block px-3 py-2 text-base font-medium"
 //               >
 //                 Contact
 //               </button>
@@ -297,7 +297,7 @@
 //                     </div>
 //                     <button
 //                       onClick={() => setIsMobileUserMenuOpen((p) => !p)}
-//                       className="w-full flex items-center text-center justify-between px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E] hover:bg-gray-100 transition"
+//                       className="w-full flex items-center text-center justify-between px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold border border-[#8C9F6E] hover:bg-gray-100 transition"
 //                     >
 //                       <div>Account</div>
 //                       <svg className={`h-4 w-4 transition-transform ${isMobileUserMenuOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -341,7 +341,7 @@
 //                         navigate("/auth/login");
 //                         setIsMenuOpen(false);
 //                       }}
-//                       className="w-full px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E] hover:bg-[#EFEFEF] transition"
+//                       className="w-full px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold border border-[#8C9F6E] hover:bg-[#EFEFEF] transition"
 //                     >
 //                       Login
 //                     </button>
@@ -372,6 +372,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import logo from "../../assets/letter-e.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -384,6 +385,7 @@ const Header = () => {
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
   }, []);
+
 
   const handleNavToSection = async (sectionId) => {
     const goScroll = () => {
@@ -413,17 +415,20 @@ const Header = () => {
   return (
     <header
       id="Home"
-      className="sticky top-0 z-10 bg-[#8C9F6E] font-audiowide pb-3"
+      className="sticky top-0 z-10 bg-[#A3B886] font-audiowide pb-3"
       data-aos="fade-down"
       data-aos-duration="1000"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <h1 className="text-2xl font-bold text-white tracking-wide">
-              EventPro
-            </h1>
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src={logo}
+              alt="Evenza Logo"
+              className="h-9 w-auto object-contain"
+            />
+            <h1 className="text-2xl font-bold text-white tracking-wide">Evenza</h1>
           </Link>
 
           {/* Desktop Nav */}
@@ -461,9 +466,9 @@ const Header = () => {
               <div className="relative" ref={userMenuRef}>
                 <button
                   onClick={() => setIsUserMenuOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-gray-100 transition"
+                  className="flex items-center gap-2 px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold hover:bg-gray-100 transition"
                 >
-                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#8C9F6E] text-white">
+                  <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[#A3B886] text-white">
                     {(user.name || user.Name || "U").charAt(0).toUpperCase()}
                   </span>
                   <span>{user.name || user.Name || "User"}</span>
@@ -486,14 +491,14 @@ const Header = () => {
                     <Link
                       to={`/${user.type?.toLowerCase() || "user"}`}
                       onClick={() => setIsUserMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-[#8C9F6E] hover:bg-gray-100 text-center"
+                      className="block px-4 py-2 text-sm text-[#A3B886] hover:bg-gray-100 text-center"
                     >
                       {(user.type || "User")} Dashboard
                     </Link>
                     <Link
                       to={`/${user.type?.toLowerCase() || "user"}/profile`}
                       onClick={() => setIsUserMenuOpen(false)}
-                      className="block px-4 py-2 text-sm text-[#8C9F6E] hover:bg-gray-100 text-center"
+                      className="block px-4 py-2 text-sm text-[#A3B886] hover:bg-gray-100 text-center"
                     >
                       My Profile
                     </Link>
@@ -515,7 +520,7 @@ const Header = () => {
               <>
                 <button
                   onClick={() => navigate("/auth/login")}
-                  className="px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold hover:bg-[#8C9F6E] hover:text-white border border-[#8C9F6E] transition"
+                  className="px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold hover:bg-[#A3B886] hover:text-white border border-[#8C9F6E] transition"
                 >
                   Login
                 </button>
@@ -563,14 +568,14 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-[#8C9F6E] border-t border-black">
+          <div className="md:hidden bg-[#A3B886] border-t border-black">
             <div className="text-center px-2 pt-2 pb-3 space-y-1 sm:px-3">
               <button
                 onClick={() => {
                   navigate("/");
                   setIsMenuOpen(false);
                 }}
-                className="w-full bg-white text-[#8C9F6E] rounded-lg block px-3 py-2 text-base font-medium"
+                className="w-full bg-white text-[#A3B886] rounded-lg block px-3 py-2 text-base font-medium"
               >
                 Home
               </button>
@@ -579,7 +584,7 @@ const Header = () => {
                   handleNavToSection("Events");
                   setIsMenuOpen(false);
                 }}
-                className="w-full bg-white text-[#8C9F6E] rounded-lg block px-3 py-2 text-base font-medium"
+                className="w-full bg-white text-[#A3B886] rounded-lg block px-3 py-2 text-base font-medium"
               >
                 Events
               </button>
@@ -588,7 +593,7 @@ const Header = () => {
                   handleNavToSection("About");
                   setIsMenuOpen(false);
                 }}
-                className="w-full bg-white text-[#8C9F6E] rounded-lg block px-3 py-2 text-base font-medium"
+                className="w-full bg-white text-[#A3B886] rounded-lg block px-3 py-2 text-base font-medium"
               >
                 About
               </button>
@@ -597,7 +602,7 @@ const Header = () => {
                   handleNavToSection("Contact");
                   setIsMenuOpen(false);
                 }}
-                className="w-full bg-white text-[#8C9F6E] rounded-lg block px-3 py-2 text-base font-medium"
+                className="w-full bg-white text-[#A3B886] rounded-lg block px-3 py-2 text-base font-medium"
               >
                 Contact
               </button>
@@ -609,14 +614,14 @@ const Header = () => {
                     </div>
                     <Link
                       to={`/${user.type?.toLowerCase() || "user"}`}
-                      className="block px-4 py-2 text-sm text-center bg-white text-[#8C9F6E] rounded-md"
+                      className="block px-4 py-2 text-sm text-center bg-white text-[#A3B886] rounded-md"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       {(user.type || "User")} Dashboard
                     </Link>
                     <Link
                       to={`/${user.type?.toLowerCase() || "user"}/profile`}
-                      className="block px-4 py-2 text-sm text-center bg-white text-[#8C9F6E] rounded-md"
+                      className="block px-4 py-2 text-sm text-center bg-white text-[#A3B886] rounded-md"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       My Profile
@@ -639,7 +644,7 @@ const Header = () => {
                         navigate("/auth/login");
                         setIsMenuOpen(false);
                       }}
-                      className="w-full px-4 py-2 rounded-md bg-white text-[#8C9F6E] font-semibold border border-[#8C9F6E]"
+                      className="w-full px-4 py-2 rounded-md bg-white text-[#A3B886] font-semibold border border-[#8C9F6E]"
                     >
                       Login
                     </button>

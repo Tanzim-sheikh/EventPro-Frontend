@@ -67,7 +67,7 @@ const OrganizerProfile = () => {
         <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <div className="bg-white shadow rounded-lg overflow-hidden">
-                    <div className="bg-[#8C9F6E] px-6 py-8 text-center">
+                    <div className="bg-[#A3B886] px-6 py-8 text-center">
                         <div className="w-32 h-32 mx-auto rounded-full bg-white p-1 shadow-lg">
                             {profile?.profilePhoto?.url ? (
                                 <img
@@ -129,7 +129,7 @@ const OrganizerProfile = () => {
                                         <p className="text-gray-500">Not uploaded</p>
                                     )}
                                     {profile?.aadharDoc?.url && (
-                                        <a href={profile.aadharDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#8C9F6E] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
+                                        <a href={profile.aadharDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#A3B886] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
                                     )}
                                 </div>
 
@@ -146,7 +146,7 @@ const OrganizerProfile = () => {
                                         <p className="text-gray-500">Not uploaded</p>
                                     )}
                                     {profile?.panDoc?.url && (
-                                        <a href={profile.panDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#8C9F6E] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
+                                        <a href={profile.panDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#A3B886] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
                                     )}
                                 </div>
 
@@ -163,7 +163,7 @@ const OrganizerProfile = () => {
                                         <p className="text-gray-500">Not uploaded</p>
                                     )}
                                     {profile?.gstDoc?.url && (
-                                        <a href={profile.gstDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#8C9F6E] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
+                                        <a href={profile.gstDoc.url} target="_blank" rel="noreferrer" className="mt-3 inline-block px-4 py-2 bg-[#A3B886] text-white rounded-md hover:bg-[#7a8a5f]">View</a>
                                     )}
                                 </div>
                             </div>

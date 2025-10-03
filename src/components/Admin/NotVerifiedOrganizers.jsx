@@ -27,7 +27,7 @@ const DocPreview = ({ title, doc }) => {
         href={doc.url}
         target="_blank"
         rel="noreferrer"
-        className="mt-3 inline-block px-3 py-1.5 bg-[#8C9F6E] text-white rounded-md text-sm hover:bg-[#7a8a5f]"
+        className="mt-3 inline-block px-3 py-1.5 bg-[#A3B886] text-white rounded-md text-sm hover:bg-[#7a8a5f]"
       >
         View
       </a>
@@ -165,7 +165,7 @@ const VerifyOrganizer = async (id) => {
                     <button onClick={()=>RejectOrganizer(org._id)} className="px-3 py-1.5 bg-red-100 text-red-700 rounded-md text-sm hover:bg-red-200">
                       Reject
                     </button>
-                    <button onClick={()=>VerifyOrganizer(org._id)} className="px-3 py-1.5 bg-[#8C9F6E] text-white rounded-md text-sm hover:bg-[#7a8a5f]">
+                    <button onClick={()=>VerifyOrganizer(org._id)} className="px-3 py-1.5 bg-[#A3B886] text-white rounded-md text-sm hover:bg-[#7a8a5f]">
                       Verify
                     </button>
                   </div>
