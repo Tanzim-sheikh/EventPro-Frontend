@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './App.css';
@@ -18,6 +18,9 @@ import UserProfile from './components/User/UserProfile';
 import UserEmailVerify from './components/User/UserEmailVerify.jsx';
 import UserForgotPaasword from "./components/User/UserForgotPassword.jsx"
 import UserDashboard from './components/User/UserDashboard.jsx';
+import BookingDashboard from './components/User/BookingDashboard.jsx';
+import UserBookings from './components/User/UserBookings.jsx';
+import UserEvents from './components/User/UserEvents.jsx';
 
 //Organizer Routes
 import OrganizerSignup from './components/Organizer/OrganizerSignup';
@@ -28,6 +31,8 @@ import OrganizerForgotPassword from "./components/Organizer/OrganizerForgotPassw
 import OrganizerDashboard from './components/Organizer/OrganizerDashboard.jsx';
 import OrganizerCreateEvent from "./components/Organizer/OrganizerCreateEvent.jsx"
 import OrganizerEvents from "./components/Organizer/OrganizerEvents.jsx"
+import OrganizerBookedEvents from "./components/Organizer/OrganizerBookedEvents.jsx"
+import OrganizerPastEvents from "./components/Organizer/OrganizerPastEvents.jsx"
 
 //Admin Routes
 import ProtectedRoute from "./context/protectedRoute.jsx";
@@ -36,6 +41,7 @@ import AllUsers from './components/Admin/AllUsers.jsx';
 import AllOrganizers from './components/Admin/AllOrganizers.jsx';
 import NotVerifiedOrganizers from './components/Admin/NotVerifiedOrganizers.jsx';
 import AllEvents from './components/Admin/AllEvents.jsx';
+import AllBookings from './components/Admin/AllBookings.jsx';
 
 function App() {
   useEffect(() => {
@@ -50,6 +56,7 @@ function App() {
   return (
     <AuthProvider>
     <BrowserRouter>
+    <ScrollToTop />
     <div>
       <Routes>
         {/* ========== PUBLIC ROUTES ========== */}
@@ -89,6 +96,9 @@ function App() {
         }>
           <Route index element={<UserDashboard/>} />
           <Route path="profile" element={<UserProfile />} />
+          <Route path="bookings" element={<UserBookings />} />
+          <Route path="events" element={<UserEvents />} />
+          <Route path="booking/:eventId" element={<BookingDashboard />} />
           {/* Add more user routes here */}
         </Route>
 
@@ -101,6 +111,8 @@ function App() {
           <Route path='dashborad' element={<OrganizerDashboard/>}/>
           <Route path='create-event' element={<OrganizerCreateEvent/>}/>
           <Route path='Organizerevents' element={<OrganizerEvents/>}/>
+          <Route path='OrganizerBookedEvents' element={<OrganizerBookedEvents/>}/>
+          <Route path='OrganizerPastEvents' element={<OrganizerPastEvents/>}/>
           {/* Add more organizer routes here */}
         </Route>
 
@@ -115,6 +127,7 @@ function App() {
           <Route path='allOrganizers' element={<AllOrganizers/>}/>
           <Route path='allEvents' element={<AllEvents/>}/>
           <Route path='not-verified-organizers' element={<NotVerifiedOrganizers/>}/>
+          <Route path='allBookings' element={<AllBookings/>}/>
           {/* Add more admin routes here */}
         </Route>
 
@@ -127,4 +140,14 @@ function App() {
     </AuthProvider>
   );
 }
+
+// Scroll to top on route change
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [pathname]);
+  return null;
+}
+
 export default App;

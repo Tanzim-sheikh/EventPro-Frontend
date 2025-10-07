@@ -245,7 +245,7 @@ import { Link } from 'react-router-dom';
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import axios from 'axios';
+import { axiosInstance } from '../../API/axios';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -264,28 +264,7 @@ const About = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Helper: try multiple API bases to avoid dev proxy issues
-  const buildBases = () => {
-    const env = (import.meta.env.VITE_API_URL || "").replace(/\/$/, "");
-    const list = [];
-    if (env) list.push(env);
-    list.push("http://localhost:5000", "http://localhost:8000");
-    return Array.from(new Set(list));
-  };
-
-  const apiGet = async (endpoint, config) => {
-    let lastErr;
-    for (const base of buildBases()) {
-      try {
-        const res = await axios.get(`${base}${endpoint}`, config);
-        return res;
-      } catch (e) {
-        lastErr = e;
-        continue;
-      }
-    }
-    throw lastErr;
-  };
+  // Requests go through axiosInstance (baseURL from env)
 
   const features = [
     {
@@ -337,7 +316,7 @@ const About = () => {
       try {
         setLoading(true);
         setError("");
-        const res = await apiGet(`/Event/LatestEvents?limit=4`);
+        const res = await axiosInstance.get(`/Event/LatestEvents`, { params: { limit: 4 } });
         if (!mounted) return;
         const list = Array.isArray(res?.data?.data) ? res.data.data : [];
         setEventsData(list);
@@ -369,7 +348,7 @@ const About = () => {
       setLoading(true);
       setError("");
       setHasSearched(true);
-      const res = await apiGet(`/Event/PublicEvents`, { params: { q } });
+      const res = await axiosInstance.get(`/Event/PublicEvents`, { params: { q } });
       const list = Array.isArray(res?.data?.data) ? res.data.data : [];
       setEventsData(list);
 

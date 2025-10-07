@@ -3,8 +3,9 @@ import axios from "axios";
 import AuthContext from "../../context/AuthContext.jsx";
 import Header from "../Home/Header.jsx";
 import Footer from "../Home/Footer.jsx";
+import { axiosInstance } from "../../API/axios";
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// All requests go through axiosInstance (baseURL from env)
 
 const statusBadge = (status = "") => {
   const map = {
@@ -44,6 +45,8 @@ const OrganizerEvents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [events, setEvents] = useState([]);
+  const [editing, setEditing] = useState(null); // event object being edited
+  const [saving, setSaving] = useState(false);
 
   // No status filter
 
@@ -53,33 +56,9 @@ const OrganizerEvents = () => {
       try {
         setLoading(true);
         setError("");
-        const endpoint = `/Event/OrganizerEvents`;
-        const tryOnce = async (base) =>
-          axios.get(`${base}${endpoint}`, { headers: { Authorization: `Bearer ${token}` } });
-
-        let res;
-        try {
-          res = await tryOnce(API_BASE);
-        } catch (err1) {
-          // If base is localhost:5000, try :8000 and vice-versa
-          const altBase = (() => {
-            try {
-              const url = new URL(API_BASE);
-              const port = url.port || (url.protocol === 'https:' ? '443' : '80');
-              const newPort = port === '5000' ? '8000' : '5000';
-              url.port = newPort;
-              return url.toString().replace(/\/$/, "");
-            } catch {
-              return API_BASE;
-            }
-          })();
-          try {
-            res = await tryOnce(altBase);
-            console.warn(`[OrganizerEvents] Primary API_BASE failed, used fallback: ${altBase}`);
-          } catch (err2) {
-            throw err1; // prefer original error
-          }
-        }
+        const res = await axiosInstance.get(`/Event/OrganizerEvents`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
         if (!mounted) return;
         const list = res?.data?.data || [];
@@ -98,6 +77,71 @@ const OrganizerEvents = () => {
   }, [token]);
 
   const filtered = events.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const refresh = async () => {
+    // simple refetch
+    try {
+      setLoading(true);
+      setError("");
+      const res = await axiosInstance.get(`/Event/OrganizerEvents`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setEvents(Array.isArray(res?.data?.data) ? res.data.data : []);
+    } catch (e) {
+      setError(e?.response?.data?.message || e?.message || "Failed to refresh events");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onDelete = async (id) => {
+    if (!id) return;
+    if (!confirm("Delete this event? This action cannot be undone.")) return;
+    try {
+      const endpoint = `/Event/DeleteEvent/${id}`;
+      const headers = { Authorization: `Bearer ${token}` };
+      await axiosInstance.delete(endpoint, { headers });
+      setEvents((prev) => prev.filter((e) => e._id !== id));
+    } catch (e) {
+      alert(e?.response?.data?.message || e?.message || "Failed to delete event");
+    }
+  };
+
+  const startEdit = (ev) => setEditing({ ...ev });
+  const closeEdit = () => setEditing(null);
+  const onEditChange = (k, v) => setEditing((prev) => ({ ...prev, [k]: v }));
+  const saveEdit = async () => {
+    if (!editing?._id) return;
+    const payload = {
+      eventName: editing.eventName,
+      date: editing.date,
+      time: editing.time,
+      city: editing.city,
+      address: editing.address,
+      tickets: editing.tickets,
+      price: editing.price,
+      description: editing.description,
+      status: editing.status,
+    };
+    try {
+      setSaving(true);
+      const endpoint = `/Event/UpdateEvent/${editing._id}`;
+      const headers = { Authorization: `Bearer ${token}` };
+      const res = await axiosInstance.patch(endpoint, payload, { headers });
+      const updated = res?.data?.data;
+      if (updated?._id) {
+        setEvents((prev) => prev.map((e) => (e._id === updated._id ? updated : e)));
+        closeEdit();
+      } else {
+        await refresh();
+        closeEdit();
+      }
+    } catch (e) {
+      alert(e?.response?.data?.message || e?.message || "Failed to update event");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <>
@@ -208,11 +252,11 @@ const OrganizerEvents = () => {
                   )}
 
                   <div className="mt-4 flex gap-2">
-                    <button className="flex-1 bg-[#A3B886] text-white rounded-lg py-2 text-sm hover:bg-[#7a8c5e] transition">
-                      View
-                    </button>
-                    <button className="flex-1 border border-[#8C9F6E] text-[#A3B886] rounded-lg py-2 text-sm hover:bg-[#eef3ea] transition">
+                    <button className="flex-1 bg-[#A3B886] text-white rounded-lg py-2 text-sm hover:bg-[#7a8c5e] transition" onClick={() => startEdit(ev)}>
                       Edit
+                    </button>
+                    <button className="flex-1 border border-red-300 text-red-600 rounded-lg py-2 text-sm hover:bg-red-50 transition" onClick={() => onDelete(ev._id)}>
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -223,6 +267,39 @@ const OrganizerEvents = () => {
         </div>
       </div>
       <Footer />
+
+      {/* Edit Modal */}
+      {editing && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div className="w-full max-w-xl bg-white rounded-2xl p-5 space-y-3">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-[#2f3a25]">Edit Event</h3>
+              <button onClick={closeEdit} className="text-[#5a6b47] hover:text-black">✕</button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <input className="border rounded-lg px-3 py-2" value={editing.eventName || ''} onChange={(e) => onEditChange('eventName', e.target.value)} placeholder="Event name" />
+              <input type="date" className="border rounded-lg px-3 py-2" value={editing.date ? new Date(editing.date).toISOString().slice(0,10) : ''} onChange={(e) => onEditChange('date', e.target.value)} />
+              <input className="border rounded-lg px-3 py-2" value={editing.time || ''} onChange={(e) => onEditChange('time', e.target.value)} placeholder="Time" />
+              <input className="border rounded-lg px-3 py-2" value={editing.city || ''} onChange={(e) => onEditChange('city', e.target.value)} placeholder="City" />
+              <input className="border rounded-lg px-3 py-2 md:col-span-2" value={editing.address || ''} onChange={(e) => onEditChange('address', e.target.value)} placeholder="Address" />
+              <input type="number" className="border rounded-lg px-3 py-2" value={editing.tickets ?? ''} onChange={(e) => onEditChange('tickets', e.target.valueAsNumber)} placeholder="Tickets" />
+              <input type="number" className="border rounded-lg px-3 py-2" value={editing.price ?? ''} onChange={(e) => onEditChange('price', e.target.valueAsNumber)} placeholder="Price" />
+              <select className="border rounded-lg px-3 py-2" value={editing.status || ''} onChange={(e) => onEditChange('status', e.target.value)}>
+                <option value="">Status</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="live">Live</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <textarea className="border rounded-lg px-3 py-2 md:col-span-2" rows={3} value={editing.description || ''} onChange={(e) => onEditChange('description', e.target.value)} placeholder="Description" />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <button className="px-4 py-2 rounded-lg border" onClick={closeEdit} disabled={saving}>Cancel</button>
+              <button className="px-4 py-2 rounded-lg bg-[#8C9F6E] text-white disabled:opacity-60" onClick={saveEdit} disabled={saving}>{saving ? 'Saving…' : 'Save'}</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

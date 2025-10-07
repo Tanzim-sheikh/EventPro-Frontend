@@ -1,8 +1,9 @@
-import React, { useMemo, useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext.jsx";
+import { axios_url } from "../../API/axios";
 
 const OrganizerCreateEvent = () => {
   const navigate = useNavigate();
@@ -26,10 +27,7 @@ const OrganizerCreateEvent = () => {
     description: "",
     status: "upcoming",
   });
-  const API_BASE = useMemo(
-    () => import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") || "http://localhost:5000",
-    []
-  );
+  const API_BASE = axios_url;
 
   const onChange = (e) => {
     const { name, value } = e.target;

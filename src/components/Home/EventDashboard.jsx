@@ -1,21 +1,17 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { axiosInstance } from "../../API/axios";
 import Header from "./Header";
 import Footer from "./Footer";
 
-// Simple base URL for APIs. Change this when you deploy.
-const API_BASE = "http://localhost:5000";
-
-const apiGet = async (endpoint, config) => {
-  return axios.get(`${API_BASE}${endpoint}`, config);
-};
+// Use centralized axios instance with env-driven baseURL
 
 const Tag = ({ children }) => (
   <span className="px-2 py-1 rounded-full bg-white/90 text-black/80 text-xs md:text-sm">{children}</span>
 );
 
 const EventCard = ({ ev }) => {
+  const navigate = useNavigate();
   const photo = ev?.eventPhoto?.url || ev?.eventPhoto || "";
   const priceLabel = ev?.price ? `₹ ${ev.price}` : "Free";
   const dateLabel = ev?.date ? new Date(ev.date).toLocaleDateString() : "";
@@ -33,10 +29,10 @@ const EventCard = ({ ev }) => {
           <Tag>{priceLabel}</Tag>
         </div>
         <div className="mt-4 flex gap-2">
-          <button className="flex-1 rounded-xl bg-[#8C9F6E] text-white py-2 font-semibold hover:bg-[#7aa341] active:scale-[0.99] transition">
+          <button onClick={()=>navigate(`/user/booking/${ev?._id}`)} className="flex-1 rounded-xl bg-[#8C9F6E] text-white py-2 font-semibold hover:bg-[#7aa341] active:scale-[0.99] transition">
             Book Now
           </button>
-          <button className="flex-1 rounded-xl border border-[#dbe4d3] bg-[#E2EAD5] text-[#2f3a25] py-2 font-semibold hover:bg-[#d6e3c6] active:scale-[0.99] transition">
+          <button onClick={()=>navigate(`/user/booking/${ev?._id}`)} className="flex-1 rounded-xl border border-[#dbe4d3] bg-[#E2EAD5] text-[#2f3a25] py-2 font-semibold hover:bg-[#d6e3c6] active:scale-[0.99] transition">
             Details</button>
         </div>
       </div>
@@ -67,8 +63,8 @@ const EventDashboard = () => {
         setLoading(true);
         setError("");
         const [latestRes, publicRes] = await Promise.all([
-          apiGet(`/Event/LatestEvents?limit=12`),
-          apiGet(`/Event/PublicEvents`, { params: { limit: 24 } }),
+          axiosInstance.get(`/Event/LatestEvents`, { params: { limit: 12 } }),
+          axiosInstance.get(`/Event/PublicEvents`, { params: { limit: 24 } }),
         ]);
         if (!mounted) return;
         const latestList = Array.isArray(latestRes?.data?.data) ? latestRes.data.data : [];

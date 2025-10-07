@@ -2,8 +2,10 @@ import React from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 import { CalendarCheck2, History, Ticket, Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
+  const navigate = useNavigate();
   const menuItems = [
     {
       title: "My Events",
@@ -40,6 +42,18 @@ const UserDashboard = () => {
             <div
               key={idx}
               className="bg-white rounded-2xl shadow-md border border-[#dfe6d9] hover:shadow-lg hover:scale-105 transition transform duration-300 cursor-pointer"
+              onClick={() => {
+                if(item.title === "My Events"){
+                  navigate("/user/events");
+                }
+                 else if (item.title === "My Bookings") {
+                  navigate("/user/bookings");
+                } else if (item.title === "Past Events") {
+                  navigate("/user/bookings?filter=past");
+                } else if (item.title === "Favorites") {
+                  navigate("/user/favorites");
+                }
+              }}
             >
               <div className="flex flex-col items-center text-center p-6 md:p-8">
                 <div className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-[#A3B886] shadow-md mb-4">

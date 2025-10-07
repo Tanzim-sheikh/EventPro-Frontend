@@ -441,7 +441,7 @@ const Header = () => {
               Home
             </Link>
             <button
-              onClick={() => handleNavToSection("Events")}
+              onClick={() => navigate("/events")}
               className="text-[#EFEFEF] hover:text-black px-3 py-2 text-sm font-medium"
             >
               Events

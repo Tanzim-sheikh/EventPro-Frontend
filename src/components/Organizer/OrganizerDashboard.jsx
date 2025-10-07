@@ -104,9 +104,9 @@ const OrganizerDashboard = () => {
     } else if (title === "Events") {
       navigate("/organizer/Organizerevents");
     } else if (title === "Booked") {
-      navigate("/organizer/bookings");
+      navigate("/organizer/OrganizerBookedEvents");
     } else if (title === "Past Events") {
-      navigate("/organizer/past-events");
+      navigate("/organizer/OrganizerPastEvents");
     }
   };
 
