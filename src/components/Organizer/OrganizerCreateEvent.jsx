@@ -3,7 +3,7 @@ import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext.jsx";
-import { axios_url } from "../../API/axios";
+import axiosInstance from '../../API/axios';
 
 const OrganizerCreateEvent = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const OrganizerCreateEvent = () => {
     description: "",
     status: "upcoming",
   });
-  const API_BASE = axios_url;
+  const API_BASE = 'http://localhost:5000';
 
   const onChange = (e) => {
     const { name, value } = e.target;

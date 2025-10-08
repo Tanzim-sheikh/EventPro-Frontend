@@ -147,8 +147,7 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
 
@@ -217,7 +216,7 @@ const OrganizerSignup = () => {
       if (formData.panDoc) fd.append('panDoc', formData.panDoc);
       if (formData.gstDoc) fd.append('gstDoc', formData.gstDoc);
 
-      const response = await axios.post(`${axios_url}/Organizer/OrganizerSignup`, fd, {
+      const response = await axiosInstance.post('/Organizer/OrganizerSignup', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });

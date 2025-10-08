@@ -1,6 +1,6 @@
 // import React, { useEffect, useState } from 'react';
 // import axios from 'axios';
-// import { axios_url } from '../../API/axios';
+// import axiosInstance from '../../API/axios';
 // import { useAuth } from '../../context/AuthContext';
 // import Header from '../Home/Header';
 // import Footer from '../Home/Footer';
@@ -44,7 +44,7 @@
 //   useEffect(() => {
 //     const fetchData = async () => {
 //       try {
-//         const res = await axios.get(`${axios_url}/admin/NotVerifiedOrganizers`, {
+//         const res = await axiosInstance.get('/admin/NotVerifiedOrganizers', {
 //           headers: { Authorization: `Bearer ${token}` },
 //           withCredentials: true,
 //         });
@@ -184,7 +184,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import AdminLayout from './layout/AdminLayout';
@@ -253,7 +253,7 @@ const NotVerifiedOrganizers = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${axios_url}/admin/NotVerifiedOrganizers`, {
+        const res = await axiosInstance.get('/admin/NotVerifiedOrganizers', {
           headers: { Authorization: `Bearer ${token}` },
           withCredentials: true,
         });
@@ -276,7 +276,7 @@ const NotVerifiedOrganizers = () => {
     
     setProcessing(id);
     try {
-      const res = await axios.delete(`${axios_url}/admin/RejectOrganizer/${id}`, {
+      const res = await axiosInstance.delete(`/admin/RejectOrganizer/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
@@ -298,7 +298,7 @@ const NotVerifiedOrganizers = () => {
     
     setProcessing(id);
     try {
-      const res = await axios.put(`${axios_url}/admin/VerifyOrganizer/${id}`, {}, {
+      const res = await axiosInstance.put(`/admin/VerifyOrganizer/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
@@ -33,7 +32,7 @@ const OrganizerLogin = () => {
     setErrorMsg('');
     
     try {
-      const response = await axios.post(`${axios_url}/Organizer/OrganizerLogin`, formData);
+      const response = await axiosInstance.post('/Organizer/OrganizerLogin', formData);
       console.log("Login response:", response.data);
 
       if (response.data?.requiresVerification) {

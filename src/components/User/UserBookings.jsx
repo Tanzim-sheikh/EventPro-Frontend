@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 
 const SkeletonCard = () => (
   <div className="rounded-2xl border border-[#a8b892] bg-white p-5 animate-pulse">
@@ -34,7 +33,7 @@ const UserBookings = () => {
         setLoading(true);
         setError("");
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${axios_url}/Booking/UserAllBookings`, {
+        const res = await axiosInstance.get('/Booking/UserAllBookings', {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         if (res?.data?.success) {

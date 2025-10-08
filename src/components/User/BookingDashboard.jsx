@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
@@ -21,7 +20,7 @@ const BookingDashboard = () => {
         setLoading(true);
         setError("");
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${axios_url}/Event/EventById/${eventId}`, {
+        const res = await axiosInstance.get(`/Event/EventById/${eventId}`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         if (res?.data?.success) setEvent(res.data.data);
@@ -54,7 +53,7 @@ const BookingDashboard = () => {
         userName: name,
         totalAmount: total,
       };
-      const res = await axios.post(`${axios_url}/Booking/CreateBooking`, payload, {
+      const res = await axiosInstance.post('/Booking/CreateBooking', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res?.data?.success) {

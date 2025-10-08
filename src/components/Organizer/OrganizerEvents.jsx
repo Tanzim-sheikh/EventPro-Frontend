@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
 import AuthContext from "../../context/AuthContext.jsx";
 import Header from "../Home/Header.jsx";
 import Footer from "../Home/Footer.jsx";
-import { axiosInstance } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 
 // All requests go through axiosInstance (baseURL from env)
 

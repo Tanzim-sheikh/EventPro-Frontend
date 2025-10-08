@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
@@ -35,7 +34,7 @@ const OrganizerBookedEvents = () => {
         setLoading(true);
         setError("");
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${axios_url}/Booking/OrganizerBookings`, {
+        const res = await axiosInstance.get('/Booking/OrganizerBookings', {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         if (res?.data?.success) {

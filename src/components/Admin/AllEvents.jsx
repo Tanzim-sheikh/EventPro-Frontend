@@ -324,9 +324,9 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import AdminLayout from "./layout/AdminLayout.jsx";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext.jsx";
-import { axios_url } from "../../API/axios";
+import axiosInstance from '../../API/axios';
 
-const API_BASE = axios_url;
+const API_BASE = 'http://localhost:5000';
 
 const Badge = ({ text, tone = "default" }) => {
   const map = {

@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 
 const SkeletonCard = () => (
   <div className="rounded-2xl border border-[#a8b892] bg-white p-5 animate-pulse">
@@ -31,7 +30,7 @@ const UserEvents = () => {
         setLoading(true);
         setError("");
         const token = localStorage.getItem("token");
-        const res = await axios.get(`${axios_url}/Booking/UserAllBookings`, {
+        const res = await axiosInstance.get('/Booking/UserAllBookings', {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
         if (res?.data?.success) {
@@ -57,7 +56,7 @@ const UserEvents = () => {
         if (ids.length === 0) return;
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const requests = ids.map(id => axios.get(`${axios_url}/Event/EventById/${id}`, { headers }).then(r => ({ id, ok: r?.data?.success, data: r?.data?.data, msg: r?.data?.message }))
+        const requests = ids.map(id => axiosInstance.get(`/Event/EventById/${id}`, { headers }).then(r => ({ id, ok: r?.data?.success, data: r?.data?.data, msg: r?.data?.message }))
           .catch(err => ({ id, ok: false, data: null, msg: err?.response?.data?.message || err?.message }))
         );
         const results = await Promise.all(requests);

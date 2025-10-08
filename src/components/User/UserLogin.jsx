@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import { useAuth } from '../../context/AuthContext';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
@@ -32,7 +31,7 @@ const UserLogin = () => {
     setErrorMsg('');
     
     try {
-      const response = await axios.post(`${axios_url}/User/UserLogin`, formData);
+      const response = await axiosInstance.post('/User/UserLogin', formData);
       console.log("Login response:", response.data);
 
       if (response.data?.requiresVerification) {

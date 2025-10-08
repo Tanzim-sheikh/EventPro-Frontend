@@ -245,7 +245,7 @@ import { Link } from 'react-router-dom';
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { axiosInstance } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);

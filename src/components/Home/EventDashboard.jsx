@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosInstance } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 import Header from "./Header";
 import Footer from "./Footer";
 

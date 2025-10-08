@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from '../../API/axios';
 import AdminLayout from "./layout/AdminLayout.jsx";
 
 const AllBookings = () => {
@@ -13,7 +12,7 @@ const AllBookings = () => {
   const fetchAll = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.get(`${axios_url}/Booking/AdminAll`, {
+      const res = await axiosInstance.get('/Booking/AdminAll', {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.data?.success) {

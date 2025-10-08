@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
 
@@ -25,7 +24,7 @@ const UserForgotPassword = () => {
     setErrorMsg('');
 
     try {
-      const response = await axios.put(`${axios_url}/User/UserForgotPassword`, { email });
+      const response = await axiosInstance.put('/User/UserForgotPassword', { email });
       setMessage(response.data?.message || 'Check your email for reset instructions.');
       setOtpSent(true);
     } catch (error) {
@@ -46,7 +45,7 @@ const UserForgotPassword = () => {
       return setErrorMsg('Passwords do not match');
     }
     try {
-      const response = await axios.put(`${axios_url}/User/UserResetPassword`, { email, otp, newPassword });
+      const response = await axiosInstance.put('/User/UserResetPassword', { email, otp, newPassword });
       setMessage(response.data?.message || 'Password reset successful. You can login now.');
       navigate('/auth/user/login');
     } catch (error) {

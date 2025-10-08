@@ -78,8 +78,7 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
 
@@ -128,7 +127,7 @@ const UserSignup = () => {
         fd.append('profilePhoto', formData.profilePhoto);
       }
 
-      const response = await axios.post(`${axios_url}/User/userSignup`, fd, {
+      const response = await axiosInstance.post('/User/userSignup', fd, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true
       });

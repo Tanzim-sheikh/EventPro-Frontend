@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useContext, useMemo } from "react";
-import axios from "axios";
 import Header from "../Home/Header.jsx";
 import Footer from "../Home/Footer.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 
-const API_BASE = axios_url;
+const API_BASE = 'http://localhost:5000';
 
 const currency = (n) => `₹${Number(n || 0).toLocaleString()}`;
 const fmtDate = (d) => {

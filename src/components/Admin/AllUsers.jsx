@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
-import { axios_url } from "../../API/axios";
-import axios from "axios";
+import axiosInstance from '../../API/axios';
 import AdminLayout from "./layout/AdminLayout.jsx";
 
 const AllUsers = () => {
@@ -14,7 +13,7 @@ const AllUsers = () => {
     const GetallUsers = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`${axios_url}/Admin/AllUsers`, {
+            const response = await axiosInstance.get('/Admin/AllUsers', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

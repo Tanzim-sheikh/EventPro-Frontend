@@ -1,5 +1,5 @@
 // import axios from "axios"
-// import { axios_url } from "../../API/axios";
+// import axiosInstance from '../../API/axios';
 // import { useNavigate } from "react-router-dom";
 // import { useEffect, useState } from "react";
 
@@ -12,7 +12,7 @@
 //     const GetAllOrganizers = async () => {
 //         try {
 //             const token = localStorage.getItem("token");
-//             const response = await axios.get(`${axios_url}/Admin/AllOrganizers`, {
+//             const response = await axiosInstance.get('/Admin/AllOrganizers', {
 //                 headers: {
 //                     Authorization: `Bearer ${token}`,
 //                 },
@@ -161,7 +161,7 @@
 // export default AllOrganizers
 
 import axios from "axios"
-import { axios_url } from "../../API/axios";
+import axiosInstance from '../../API/axios';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -175,7 +175,7 @@ const AllOrganizers = () => {
     const GetAllOrganizers = async () => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`${axios_url}/Admin/AllOrganizers`, {
+            const response = await axiosInstance.get('/Admin/AllOrganizers', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

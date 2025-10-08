@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
@@ -19,7 +18,7 @@ const OrganizerProfile = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`${axios_url}/Organizer/OrganizerProfile`, {
+                const response = await axiosInstance.get('/Organizer/OrganizerProfile', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }

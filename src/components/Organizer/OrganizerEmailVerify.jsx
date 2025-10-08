@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { axios_url } from '../../API/axios';
+import axiosInstance from '../../API/axios';
 import Header from '../Home/Header';
 import Footer from '../Home/Footer';
 
@@ -26,7 +25,7 @@ const OrganizerEmailVerify = () => {
     setSuccessMsg('');
     try {
       if (!email || !otp) throw new Error('Please enter email and OTP');
-      const res = await axios.post(`${axios_url}/Organizer/OrganizerEmailVerify`, { email, otp: String(otp).trim() });
+      const res = await axiosInstance.post('/Organizer/OrganizerEmailVerify', { email, otp: String(otp).trim() });
       setSuccessMsg(res.data?.message || 'Email verified successfully');
       setTimeout(() => navigate('/auth/organizer/login'), 1000);
     } catch (err) {

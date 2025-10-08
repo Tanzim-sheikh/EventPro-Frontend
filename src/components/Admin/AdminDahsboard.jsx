@@ -1,6 +1,6 @@
 // import axios from "axios";
 // import {useNavigate} from "react-router-dom"
-// import { axios_url } from "../../API/axios";
+// import axiosInstance from '../../API/axios';
 // import { useEffect, useState } from "react";
 
 // const AdminDashborad = () => {
@@ -10,7 +10,7 @@
 //    const TotalUsers = async ()=>{
 //     try {
 //       const token = localStorage.getItem("token");
-//       const response = await axios.get(`${axios_url}/Admin/AllUsers`, {
+//       const response = await axiosInstance.get('/Admin/AllUsers', {
 //           headers: {
 //               Authorization: `Bearer ${token}`,
 //           },
@@ -160,7 +160,7 @@
   
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { axios_url } from "../../API/axios";
+import axiosInstance from '../../API/axios';
 import { useEffect, useState } from "react";
 
 const AdminDashboard = () => {
@@ -177,7 +177,7 @@ const AdminDashboard = () => {
   const TotalUsers = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get(`${axios_url}/Admin/AllUsers`, {
+      const response = await axiosInstance.get('/Admin/AllUsers', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

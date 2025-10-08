@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { axios_url } from "../../API/axios";
+import axiosInstance from "../../API/axios";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 
@@ -21,9 +20,9 @@ const UserProfile = () => {
         const fetchProfile = async () => {
             try {
                 console.log('Fetching profile with token:', token);
-                console.log('API URL:', `${axios_url}/User/UserProfile`);
+                console.log('API URL:', 'http://localhost:5000/User/UserProfile');
                 
-                const response = await axios.get(`${axios_url}/User/UserProfile`, {
+                const response = await axiosInstance.get('/User/UserProfile', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
