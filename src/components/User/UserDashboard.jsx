@@ -23,9 +23,9 @@ const UserDashboard = () => {
       icon: <Ticket className="w-8 h-8 text-white" />,
     },
     {
-      title: "Favorites",
-      desc: "Your saved events for quick access and easy booking.",
-      icon: <Heart className="w-8 h-8 text-white" />,
+      title: "Past Bookings",
+      desc: "Your completed event tickets and booking history.",
+      icon: <History className="w-8 h-8 text-white" />,
     },
   ];
 
@@ -49,9 +49,9 @@ const UserDashboard = () => {
                  else if (item.title === "My Bookings") {
                   navigate("/user/bookings");
                 } else if (item.title === "Past Events") {
-                  navigate("/user/bookings?filter=past");
-                } else if (item.title === "Favorites") {
-                  navigate("/user/favorites");
+                  navigate("/user/past-events");
+                } else if (item.title === "Past Bookings") {
+                  navigate("/user/past-bookings");
                 }
               }}
             >

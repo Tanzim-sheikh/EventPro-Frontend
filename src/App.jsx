@@ -21,6 +21,8 @@ import UserDashboard from './components/User/UserDashboard.jsx';
 import BookingDashboard from './components/User/BookingDashboard.jsx';
 import UserBookings from './components/User/UserBookings.jsx';
 import UserEvents from './components/User/UserEvents.jsx';
+import UserPastEvents from './components/User/UserPastEvents.jsx';
+import UserPastBookings from './components/User/UserPastBookings.jsx';
 
 //Organizer Routes
 import OrganizerSignup from './components/Organizer/OrganizerSignup';
@@ -98,6 +100,8 @@ function App() {
           <Route path="profile" element={<UserProfile />} />
           <Route path="bookings" element={<UserBookings />} />
           <Route path="events" element={<UserEvents />} />
+          <Route path="past-events" element={<UserPastEvents />} />
+          <Route path="past-bookings" element={<UserPastBookings />} />
           <Route path="booking/:eventId" element={<BookingDashboard />} />
           {/* Add more user routes here */}
         </Route>

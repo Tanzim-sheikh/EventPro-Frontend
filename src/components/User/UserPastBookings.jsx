@@ -2,23 +2,23 @@ import React, { useEffect, useMemo, useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 import axiosInstance from "../../API/axios";
-import { Calendar, Clock, MapPin, User, Ticket, QrCode } from "lucide-react";
+import { Calendar, Clock, MapPin, User, Ticket, History } from "lucide-react";
 
 const SkeletonCard = () => (
   <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
-    <div className="h-48 bg-[#e2ead5]" />
+    <div className="h-48 bg-[#f3f4f6]" />
     <div className="p-6">
-      <div className="h-4 w-3/4 bg-[#e2ead5] rounded mb-2" />
-      <div className="h-3 w-1/2 bg-[#e2ead5] rounded mb-4" />
+      <div className="h-4 w-3/4 bg-[#f3f4f6] rounded mb-2" />
+      <div className="h-3 w-1/2 bg-[#f3f4f6] rounded mb-4" />
       <div className="space-y-2">
-        <div className="h-3 w-full bg-[#e2ead5] rounded" />
-        <div className="h-3 w-2/3 bg-[#e2ead5] rounded" />
+        <div className="h-3 w-full bg-[#f3f4f6] rounded" />
+        <div className="h-3 w-2/3 bg-[#f3f4f6] rounded" />
       </div>
     </div>
   </div>
 );
 
-const UserBookings = () => {
+const UserPastBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [eventsById, setEventsById] = useState({});
   const [loading, setLoading] = useState(true);
@@ -40,11 +40,11 @@ const UserBookings = () => {
         if (res?.data?.success) {
           setBookings(Array.isArray(res.data.data) ? res.data.data : []);
         } else {
-          setError(res?.data?.message || "Failed to load bookings");
+          setError(res?.data?.message || "Failed to load past bookings");
         }
       } catch (e) {
         console.error(e);
-        setError(e?.response?.data?.message || e?.message || "Failed to load bookings");
+        setError(e?.response?.data?.message || e?.message || "Failed to load past bookings");
       } finally {
         setLoading(false);
       }
@@ -77,10 +77,10 @@ const UserBookings = () => {
   }, [bookings]);
 
   const filtered = useMemo(() => {
-    // Filter out bookings for completed events
+    // Filter for only completed events
     let list = [...bookings].filter(booking => {
       const event = eventsById[booking?.eventId];
-      return event && event.status !== 'completed';
+      return event && event.status === 'completed';
     });
 
     const q = query.trim().toLowerCase();
@@ -117,8 +117,10 @@ const UserBookings = () => {
 
   const formatDate = (d) => {
     if (!d) return "-";
-    try { return new Date(d).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" }); } catch { return String(d); }
+    try { return new Date(d).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" }); } 
+    catch { return String(d); }
   };
+
   const formatTime = (t, d) => {
     if (t) return t;
     if (d) try { return new Date(d).toLocaleTimeString("en-IN", { hour:"2-digit", minute:"2-digit", hour12:true }); } catch {}
@@ -126,23 +128,23 @@ const UserBookings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#e2ead5]">
+    <div className="min-h-screen bg-[#f3f4f6]">
       <Header />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2f3a25] flex items-center gap-2">
-              <Ticket className="w-8 h-8 text-[#A3B886]" />
-              Active Tickets
+            <h1 className="text-2xl md:text-3xl font-extrabold text-gray-800 flex items-center gap-2">
+              <History className="w-8 h-8 text-gray-600" />
+              Past Bookings
             </h1>
-            <p className="text-[#405036] text-sm">Your upcoming event tickets</p>
+            <p className="text-gray-600 text-sm">Your completed event history</p>
           </div>
-          <div className="bg-[#A3B886] text-white px-4 py-2 rounded-full text-sm font-medium">
-            {filtered.length} Tickets
+          <div className="bg-gray-600 text-white px-4 py-2 rounded-full text-sm font-medium">
+            {filtered.length} Past Events
           </div>
         </div>
 
-        <div className="rounded-2xl border border-[#a8b892] bg-white p-4 md:p-5 mb-6">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 md:p-5 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
             <div className="md:col-span-2">
               <input
@@ -150,7 +152,7 @@ const UserBookings = () => {
                 value={query}
                 onChange={(e)=>setQuery(e.target.value)}
                 placeholder="Search by event or organizer"
-                className="w-full rounded-lg border border-[#a8b892] px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#A3B886]"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
             </div>
             <div>
@@ -158,17 +160,17 @@ const UserBookings = () => {
                 type="date"
                 value={dateFilter}
                 onChange={(e)=>setDateFilter(e.target.value)}
-                className="w-full rounded-lg border border-[#a8b892] px-3 py-2 text-sm text-[#2f3a25] focus:outline-none focus:ring-2 focus:ring-[#A3B886]"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400"
               />
             </div>
             <div>
               <select
                 value={sortKey}
                 onChange={(e)=>setSortKey(e.target.value)}
-                className="w-full rounded-lg border border-[#a8b892] px-3 py-2 text-sm bg-white text-[#2f3a25] focus:outline-none focus:ring-2 focus:ring-[#A3B886]"
+                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400"
               >
-                <option value="date_desc">Newest date</option>
-                <option value="date_asc">Oldest date</option>
+                <option value="date_desc">Newest first</option>
+                <option value="date_asc">Oldest first</option>
                 <option value="amount_desc">Amount high to low</option>
                 <option value="amount_asc">Amount low to high</option>
               </select>
@@ -183,91 +185,82 @@ const UserBookings = () => {
         ) : error ? (
           <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700">{error}</div>
         ) : filtered.length === 0 ? (
-          <div className="rounded-2xl border border-[#a8b892] bg-white p-8 text-center text-[#405036]">
-            <Ticket className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No Tickets Found</h3>
-            <p>You haven't booked any events yet.</p>
+          <div className="rounded-2xl border border-gray-200 bg-white p-8 text-center text-gray-600">
+            <History className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No Past Bookings</h3>
+            <p>You don't have any completed events in your history yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((b) => (
-              <div key={b?._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                {/* Ticket Header */}
-                <div className="bg-gradient-to-r from-[#A3B886] to-[#8a9b6e] p-4 text-white relative">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <Ticket className="w-5 h-5" />
-                      <span className="text-sm font-medium">EVENT TICKET</span>
+              <div key={b?._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200">
+                <div className="relative">
+                  <div className="h-48 bg-gray-200 relative overflow-hidden">
+                    {eventsById[b.eventId]?.eventImages?.[0] ? (
+                      <img 
+                        src={eventsById[b.eventId].eventImages[0]} 
+                        alt={b.eventName}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <Ticket className="w-12 h-12 text-gray-400" />
+                      </div>
+                    )}
+                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                      Completed
                     </div>
-                    <div className="text-right">
-                      <div className="text-xs opacity-90">Booking Ref</div>
-                      <div className="text-sm font-bold">#{String(b?._id||'').slice(-8)}</div>
-                    </div>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 h-14">
+                    {b.eventName || 'Event Name'}
+                  </h3>
+                  
+                  <div className="flex items-center text-gray-600 text-sm mb-3">
+                    <User className="w-4 h-4 mr-2 text-gray-500" />
+                    <span>{b.organizerName || 'Organizer'}</span>
                   </div>
                   
-                  {/* Ticket Perforation */}
-                  <div className="absolute bottom-0 left-0 right-0 h-2 flex justify-center">
-                    <div className="w-8 h-2 bg-white rounded-full opacity-20"></div>
-                  </div>
-                </div>
-
-                {/* Event Image Placeholder */}
-                <div className="h-32 bg-gradient-to-br from-[#f3f7ef] to-[#e2ead5] flex items-center justify-center">
-                  <Calendar className="w-12 h-12 text-[#6a7b58]" />
-                </div>
-
-                {/* Ticket Content */}
-                <div className="p-6">
-                  {/* Event Name */}
-                  <h3 className="text-xl font-bold text-[#2f3a25] mb-2 line-clamp-2">
-                    {b?.eventName || "Event Name"}
-                  </h3>
-
-                  {/* Ticket Details */}
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center gap-3 text-sm">
-                      <Calendar className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                  <div className="space-y-3 mt-4">
+                    <div className="flex items-start">
+                      <Calendar className="w-5 h-5 text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
                       <div>
-                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Event Date</div>
-                        <div className="font-semibold text-[#2f3a25]">{formatDate(b?.eventDate)}</div>
+                        <p className="text-sm text-gray-500">Event Date</p>
+                        <p className="text-sm font-medium">{formatDate(b.eventDate)}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-3 text-sm">
-                      <Clock className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                    <div className="flex items-start">
+                      <Clock className="w-5 h-5 text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
                       <div>
-                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Event Time</div>
-                        <div className="font-semibold text-[#2f3a25]">{formatTime(b?.eventTime, b?.eventDate)}</div>
+                        <p className="text-sm text-gray-500">Time</p>
+                        <p className="text-sm font-medium">{formatTime(b.eventTime, b.eventDate)}</p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-3 text-sm">
-                      <User className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                    <div className="flex items-start">
+                      <MapPin className="w-5 h-5 text-gray-500 mr-2 mt-0.5 flex-shrink-0" />
                       <div>
-                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Organizer</div>
-                        <div className="font-semibold text-[#2f3a25]">{b?.organizerName || 'Event Organizer'}</div>
+                        <p className="text-sm text-gray-500">Location</p>
+                        <p className="text-sm font-medium">{b.eventLocation || 'Online'}</p>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Ticket Info Section */}
-                  <div className="border-t border-[#e2ead5] pt-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="text-center">
-                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Tickets</div>
-                        <div className="text-lg font-bold text-[#2f3a25]">{b?.ticketCount || 0}</div>
+                    
+                    <div className="pt-2 mt-3 border-t border-gray-100 flex justify-between items-center">
+                      <div>
+                        <p className="text-sm text-gray-500">Total Paid</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          ₹{Number(b.totalAmount || 0).toLocaleString('en-IN')}
+                        </p>
                       </div>
-                      <div className="text-center">
-                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Total Amount</div>
-                        <div className="text-lg font-bold text-[#A3B886]">₹{Number(b?.totalAmount||0)}</div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-500">Tickets</p>
+                        <p className="text-sm font-medium">{b.ticketCount || 1} {b.ticketCount === 1 ? 'ticket' : 'tickets'}</p>
                       </div>
                     </div>
-                           
                   </div>
                 </div>
-
-                {/* Ticket Bottom Border */}
-                <div className="h-1 bg-gradient-to-r from-[#A3B886] to-[#8a9b6e]"></div>
               </div>
             ))}
           </div>
@@ -278,4 +271,4 @@ const UserBookings = () => {
   );
 };
 
-export default UserBookings;
+export default UserPastBookings;

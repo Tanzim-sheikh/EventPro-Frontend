@@ -2,21 +2,19 @@ import React, { useEffect, useMemo, useState } from "react";
 import axiosInstance from "../../API/axios";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
+import { Calendar, Clock, User, Ticket } from "lucide-react";
 
 const SkeletonCard = () => (
-  <div className="rounded-2xl border border-[#a8b892] bg-white p-5 animate-pulse">
-    <div className="h-4 w-24 bg-[#e2ead5] rounded" />
-    <div className="mt-2 h-6 w-2/3 bg-[#e2ead5] rounded" />
-    <div className="mt-4 grid grid-cols-2 gap-3">
-      <div className="h-4 w-full bg-[#e2ead5] rounded" />
-      <div className="h-4 w-full bg-[#e2ead5] rounded" />
+  <div className="bg-white rounded-2xl shadow-lg overflow-hidden animate-pulse">
+    <div className="h-48 bg-[#e2ead5]" />
+    <div className="p-6">
+      <div className="h-4 w-3/4 bg-[#e2ead5] rounded mb-2" />
+      <div className="h-3 w-1/2 bg-[#e2ead5] rounded mb-4" />
+      <div className="space-y-2">
+        <div className="h-3 w-full bg-[#e2ead5] rounded" />
+        <div className="h-3 w-2/3 bg-[#e2ead5] rounded" />
+      </div>
     </div>
-    <div className="mt-3 grid grid-cols-3 gap-3">
-      <div className="h-4 w-full bg-[#e2ead5] rounded" />
-      <div className="h-4 w-full bg-[#e2ead5] rounded" />
-      <div className="h-4 w-full bg-[#e2ead5] rounded" />
-    </div>
-    <div className="mt-5 h-9 w-28 bg-[#e2ead5] rounded" />
   </div>
 );
 
@@ -102,8 +100,14 @@ const OrganizerBookedEvents = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2f3a25]">Bookings</h1>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2f3a25] flex items-center gap-2">
+              <Ticket className="w-8 h-8 text-[#A3B886]" />
+              Bookings
+            </h1>
             <p className="text-[#405036] text-sm">All tickets booked for your events</p>
+          </div>
+          <div className="bg-[#A3B886] text-white px-4 py-2 rounded-full text-sm font-medium">
+            {filtered.length} Bookings
           </div>
         </div>
 
@@ -144,54 +148,95 @@ const OrganizerBookedEvents = () => {
 
         {/* Content */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {Array.from({ length: 6 }).map((_,i)=>(<SkeletonCard key={i} />))}
           </div>
         ) : error ? (
           <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700">{error}</div>
         ) : filtered.length === 0 ? (
           <div className="rounded-2xl border border-[#a8b892] bg-white p-8 text-center text-[#405036]">
-            No bookings found.
+            <Ticket className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No Bookings Found</h3>
+            <p>No users have booked your events yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((b) => (
-              <div key={b?._id} className="rounded-2xl border border-[#a8b892] bg-white p-5 shadow-sm hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between">
-                  <span className="px-2.5 py-1 text-xs rounded-full bg-[#eaf2e0] text-[#2f3a25]">{b?.ticketCount || 0} Tickets</span>
-                  <span className="text-sm font-semibold text-[#2f3a25]">₹ {Number(b?.totalAmount||0)}</span>
-                </div>
-                <h3 className="mt-2 text-lg font-bold text-[#2f3a25] line-clamp-2">{b?.eventName || "-"}</h3>
-                <div className="mt-2 grid grid-cols-2 gap-3 text-sm text-[#405036]">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Date</div>
-                    <div className="font-semibold text-[#2f3a25]">{formatDate(b?.eventDate)}</div>
+              <div key={b?._id} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                {/* Ticket Header */}
+                <div className="bg-gradient-to-r from-[#A3B886] to-[#8a9b6e] p-4 text-white relative">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Ticket className="w-5 h-5" />
+                      <span className="text-sm font-medium">EVENT TICKET</span>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs opacity-90">Booking Ref</div>
+                      <div className="text-sm font-bold">#{String(b?._id||'').slice(-8)}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Time</div>
-                    <div className="font-semibold text-[#2f3a25]">{formatTime(b?.eventTime, b?.eventDate)}</div>
-                  </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Booked By</div>
-                    <div className="font-semibold text-[#2f3a25]">{b?.userName || '-'}</div>
-                  </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Organizer</div>
-                    <div className="font-semibold text-[#2f3a25]">{b?.organizerName || '-'}</div>
+                  {/* Ticket Perforation */}
+                  <div className="absolute bottom-0 left-0 right-0 h-2 flex justify-center">
+                    <div className="w-8 h-2 bg-white rounded-full opacity-20"></div>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="text-xs text-[#6a7b58]">#{String(b?._id || '').slice(-8)}</div>
-                  <button
-                    type="button"
-                    className="rounded-lg bg-[#A3B886] hover:bg-[#6e8151] text-white text-sm font-semibold px-3 py-2"
-                    onClick={() => {
-                      // reserved for future: open booking details modal
-                    }}
-                  >
-                    View details
-                  </button>
+
+                {/* Event Image Placeholder */}
+                <div className="h-32 bg-gradient-to-br from-[#f3f7ef] to-[#e2ead5] flex items-center justify-center">
+                  <Calendar className="w-12 h-12 text-[#6a7b58]" />
                 </div>
+
+                {/* Ticket Content */}
+                <div className="p-6">
+                  {/* Event Name */}
+                  <h3 className="text-xl font-bold text-[#2f3a25] mb-2 line-clamp-2">
+                    {b?.eventName || "Event Name"}
+                  </h3>
+
+                  {/* Ticket Details */}
+                  <div className="space-y-3 mb-4">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Calendar className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                      <div>
+                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Event Date</div>
+                        <div className="font-semibold text-[#2f3a25]">{formatDate(b?.eventDate)}</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 text-sm">
+                      <Clock className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                      <div>
+                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Event Time</div>
+                        <div className="font-semibold text-[#2f3a25]">{formatTime(b?.eventTime, b?.eventDate)}</div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 text-sm">
+                      <User className="w-4 h-4 text-[#6a7b58] flex-shrink-0" />
+                      <div>
+                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Booked By</div>
+                        <div className="font-semibold text-[#2f3a25]">{b?.userName || 'User'}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Ticket Info Section */}
+                  <div className="border-t border-[#e2ead5] pt-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="text-center">
+                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Tickets</div>
+                        <div className="text-lg font-bold text-[#2f3a25]">{b?.ticketCount || 0}</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-[#6a7b58] text-xs uppercase tracking-wide">Total Amount</div>
+                        <div className="text-lg font-bold text-[#A3B886]">₹{Number(b?.totalAmount||0)}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ticket Bottom Border */}
+                <div className="h-1 bg-gradient-to-r from-[#A3B886] to-[#8a9b6e]"></div>
               </div>
             ))}
           </div>

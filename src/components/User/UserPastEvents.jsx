@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Header from "../Home/Header";
 import Footer from "../Home/Footer";
 import axiosInstance from "../../API/axios";
+import { Calendar, MapPin, Clock, User, CheckCircle } from "lucide-react";
 
 const SkeletonCard = () => (
   <div className="rounded-2xl border border-[#a8b892] bg-white p-5 animate-pulse">
@@ -11,10 +12,15 @@ const SkeletonCard = () => (
       <div className="h-4 w-full bg-[#e2ead5] rounded" />
       <div className="h-4 w-full bg-[#e2ead5] rounded" />
     </div>
+    <div className="mt-3 grid grid-cols-3 gap-3">
+      <div className="h-4 w-full bg-[#e2ead5] rounded" />
+      <div className="h-4 w-full bg-[#e2ead5] rounded" />
+      <div className="h-4 w-full bg-[#e2ead5] rounded" />
+    </div>
   </div>
 );
 
-const UserEvents = () => {
+const UserPastEvents = () => {
   const [bookings, setBookings] = useState([]);
   const [eventsById, setEventsById] = useState({});
   const [loading, setLoading] = useState(true);
@@ -56,8 +62,10 @@ const UserEvents = () => {
         if (ids.length === 0) return;
         const token = localStorage.getItem("token");
         const headers = token ? { Authorization: `Bearer ${token}` } : {};
-        const requests = ids.map(id => axiosInstance.get(`/Event/EventById/${id}`, { headers }).then(r => ({ id, ok: r?.data?.success, data: r?.data?.data, msg: r?.data?.message }))
-          .catch(err => ({ id, ok: false, data: null, msg: err?.response?.data?.message || err?.message }))
+        const requests = ids.map(id => 
+          axiosInstance.get(`/Event/EventById/${id}`, { headers })
+            .then(r => ({ id, ok: r?.data?.success, data: r?.data?.data, msg: r?.data?.message }))
+            .catch(err => ({ id, ok: false, data: null, msg: err?.response?.data?.message || err?.message }))
         );
         const results = await Promise.all(requests);
         const map = {};
@@ -70,10 +78,12 @@ const UserEvents = () => {
     fetchEvents();
   }, [bookings]);
 
-  // Build event list from bookings using fetched event details
+  // Build event list from bookings using fetched event details, filter for completed events
   const eventsList = useMemo(() => {
     const ids = [...new Set((bookings || []).map(b => b?.eventId).filter(Boolean))];
-    return ids.map(id => eventsById[id]).filter(Boolean);
+    const events = ids.map(id => eventsById[id]).filter(Boolean);
+    // Filter only completed events
+    return events.filter(event => event?.status === 'completed');
   }, [bookings, eventsById]);
 
   // Map eventId -> booking info (organizerName/organizerNumber)
@@ -84,6 +94,9 @@ const UserEvents = () => {
         m[b.eventId] = {
           organizerName: b?.organizerName,
           organizerNumber: b?.organizerNumber,
+          ticketCount: b?.ticketCount,
+          totalAmount: b?.totalAmount,
+          bookingDate: b?.createdAt
         };
       }
     });
@@ -113,16 +126,23 @@ const UserEvents = () => {
       case "date_desc":
         list.sort((a,b)=> new Date(b?.date||0) - new Date(a?.date||0));
         break;
+      case "amount_desc":
+        list.sort((a,b)=> (Number(bookingByEventId[b?._id]?.totalAmount)||0) - (Number(bookingByEventId[a?._id]?.totalAmount)||0));
+        break;
+      case "amount_asc":
+        list.sort((a,b)=> (Number(bookingByEventId[a?._id]?.totalAmount)||0) - (Number(bookingByEventId[b?._id]?.totalAmount)||0));
+        break;
       default:
         break;
     }
     return list;
-  }, [eventsList, query, dateFilter, sortKey]);
+  }, [eventsList, query, dateFilter, sortKey, bookingByEventId]);
 
   const formatDate = (d) => {
     if (!d) return "-";
     try { return new Date(d).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" }); } catch { return String(d); }
   };
+
   const formatTime = (t, d) => {
     if (t) return t;
     if (d) try { return new Date(d).toLocaleTimeString("en-IN", { hour:"2-digit", minute:"2-digit", hour12:true }); } catch {}
@@ -135,8 +155,14 @@ const UserEvents = () => {
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between gap-4 mb-6">
           <div>
-            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2f3a25]">My Events</h1>
-            <p className="text-[#405036] text-sm">Events you have booked</p>
+            <h1 className="text-2xl md:text-3xl font-extrabold text-[#2f3a25] flex items-center gap-2">
+              <CheckCircle className="w-8 h-8 text-green-600" />
+              Past Events
+            </h1>
+            <p className="text-[#405036] text-sm">Events you have attended that are now completed</p>
+          </div>
+          <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+            {filtered.length} Completed
           </div>
         </div>
 
@@ -182,46 +208,78 @@ const UserEvents = () => {
           <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700">{error}</div>
         ) : filtered.length === 0 ? (
           <div className="rounded-2xl border border-[#a8b892] bg-white p-8 text-center text-[#405036]">
-            You haven't booked any events yet.
+            <CheckCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No Past Events Found</h3>
+            <p>You haven't attended any completed events yet.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filtered.map((e) => (
-              <div key={e?._id} className="rounded-2xl border border-[#a8b892] bg-white p-5 shadow-sm hover:shadow-md transition-shadow">
+              <div key={e?._id} className="rounded-2xl border border-[#a8b892] bg-white p-5 shadow-sm hover:shadow-md transition-shadow relative">
+                {/* Completed Badge */}
+                <div className="absolute top-3 right-3 bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                  <CheckCircle className="w-3 h-3" />
+                  Completed
+                </div>
+                
                 {/* Image */}
-                <div className="relative min-h-[160px] bg-[#f3f7ef] rounded-xl overflow-hidden">
+                <div className="relative min-h-[160px] bg-[#f3f7ef] rounded-xl overflow-hidden mb-4">
                   {(() => {
                     const photo = e?.eventPhoto;
                     const photoUrl = typeof photo === 'string' ? photo : (photo?.url || "");
                     return photoUrl ? (
                       <img src={photoUrl} alt={e?.eventName || "Event"} className="h-full w-full object-cover" />
                     ) : (
-                      <div className="h-full w-full flex items-center justify-center text-[#6a7b58]">No Image</div>
+                      <div className="h-full w-full flex items-center justify-center text-[#6a7b58]">
+                        <Calendar className="w-12 h-12" />
+                      </div>
                     );
                   })()}
                 </div>
-                <h3 className="mt-3 text-lg font-bold text-[#2f3a25] line-clamp-2">{e?.eventName || "-"}</h3>
-                <p className="text-sm text-[#405036] line-clamp-2">{e?.description || 'No description available.'}</p>
-                <div className="mt-3 grid grid-cols-2 gap-3 text-sm text-[#405036]">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Date</div>
-                    <div className="font-semibold text-[#2f3a25]">{e?.date ? new Date(e.date).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" }) : '-'}</div>
+
+                <h3 className="text-lg font-bold text-[#2f3a25] line-clamp-2 mb-2">{e?.eventName || "-"}</h3>
+                <p className="text-sm text-[#405036] line-clamp-2 mb-4">{e?.description || 'No description available.'}</p>
+
+                {/* Booking Info */}
+                <div className="bg-green-50 rounded-lg p-3 mb-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-green-700 font-medium">
+                      {bookingByEventId[e?._id]?.ticketCount || 0} Tickets Booked
+                    </span>
+                    <span className="text-sm font-bold text-green-800">
+                      ₹{Number(bookingByEventId[e?._id]?.totalAmount||0)}
+                    </span>
                   </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Time</div>
-                    <div className="font-semibold text-[#2f3a25]">{e?.time || '-'}</div>
+                </div>
+
+                {/* Event Details */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-sm text-[#405036]">
+                    <Calendar className="w-4 h-4 text-[#6a7b58]" />
+                    <span className="font-medium">{formatDate(e?.date)}</span>
                   </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Organizer</div>
-                    <div className="font-semibold text-[#2f3a25]">{e?.organizerName || bookingByEventId[e?._id]?.organizerName || '-'}</div>
+                  
+                  <div className="flex items-center gap-2 text-sm text-[#405036]">
+                    <Clock className="w-4 h-4 text-[#6a7b58]" />
+                    <span className="font-medium">{formatTime(e?.time, e?.date)}</span>
                   </div>
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Organizer Mobile</div>
-                    <div className="font-semibold text-[#2f3a25]">{bookingByEventId[e?._id]?.organizerNumber || '-'}</div>
+                  
+                  <div className="flex items-center gap-2 text-sm text-[#405036]">
+                    <MapPin className="w-4 h-4 text-[#6a7b58]" />
+                    <span className="font-medium">{e?.city}, {e?.address}</span>
                   </div>
-                  <div className="col-span-2">
-                    <div className="text-[11px] uppercase tracking-wide text-[#6a7b58]">Description</div>
-                    <div className="font-semibold text-[#2f3a25] line-clamp-2">{e?.description || 'No description available.'}</div>
+                  
+                  <div className="flex items-center gap-2 text-sm text-[#405036]">
+                    <User className="w-4 h-4 text-[#6a7b58]" />
+                    <span className="font-medium">{e?.organizerName || bookingByEventId[e?._id]?.organizerName || '-'}</span>
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div className="mt-4 pt-3 border-t border-[#e2ead5]">
+                  <div className="text-xs text-[#6a7b58] uppercase tracking-wide mb-1">Description</div>
+                  <div className="text-sm text-[#405036] line-clamp-3">
+                    {e?.description || 'No description available.'}
                   </div>
                 </div>
               </div>
@@ -233,4 +291,5 @@ const UserEvents = () => {
     </div>
   );
 };
-export default UserEvents;
+
+export default UserPastEvents;

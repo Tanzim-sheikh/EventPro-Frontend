@@ -3,6 +3,7 @@ import Header from "../Home/Header.jsx";
 import Footer from "../Home/Footer.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
 import axiosInstance from "../../API/axios";
+import axios from "axios";
 
 const API_BASE = 'http://localhost:5000';
 
