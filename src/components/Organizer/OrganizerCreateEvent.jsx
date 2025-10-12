@@ -27,7 +27,6 @@ const OrganizerCreateEvent = () => {
     description: "",
     status: "upcoming",
   });
-  const API_BASE = 'http://localhost:5000';
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +79,7 @@ const OrganizerCreateEvent = () => {
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       const file = fileInputRef.current?.files?.[0];
       if (file) fd.append("eventPhoto", file);
-      const res = await fetch(`${API_BASE}/Event/OrganizerCreateEvent`, {
+      const res = await fetch(`${axiosInstance}/Event/OrganizerCreateEvent`, {
         method: "POST",
         headers: {
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
