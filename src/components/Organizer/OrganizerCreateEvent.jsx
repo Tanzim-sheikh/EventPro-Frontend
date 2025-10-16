@@ -79,15 +79,18 @@ const OrganizerCreateEvent = () => {
       Object.entries(form).forEach(([k, v]) => fd.append(k, v));
       const file = fileInputRef.current?.files?.[0];
       if (file) fd.append("eventPhoto", file);
-      const res = await fetch(`${axiosInstance}/Event/OrganizerCreateEvent`, {
-        method: "POST",
-        headers: {
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: fd,
-      });
-      const data = await res.json();
-      if (!res.ok || data?.success === false) {
+      const res = await axiosInstance.post(
+        "/Event/OrganizerCreateEvent",
+        fd,
+        {
+          headers: {
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      const data = res?.data;
+      if (data?.success === false) {
         throw new Error(data?.message || "Failed to create event");
       }
       setSuccess("Event created successfully");

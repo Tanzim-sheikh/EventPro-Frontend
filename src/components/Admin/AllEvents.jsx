@@ -322,11 +322,9 @@
 // export default AllEvents;
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import AdminLayout from "./layout/AdminLayout.jsx";
-import axios from "axios";
 import AuthContext from "../../context/AuthContext.jsx";
 import axiosInstance from '../../API/axios';
 
-const API_BASE = 'http://localhost:5000';
 
 const Badge = ({ text, tone = "default" }) => {
   const map = {
@@ -384,32 +382,9 @@ const AllEvents = () => {
       try {
         setLoading(true);
         setError("");
-        const endpoint = `/Event/AllEvents`;
-        const tryOnce = async (base) =>
-          axios.get(`${base}${endpoint}`, { headers: { Authorization: `Bearer ${token}` } });
-
-        let res;
-        try {
-          res = await tryOnce(API_BASE);
-        } catch (err1) {
-          const altBase = (() => {
-            try {
-              const url = new URL(API_BASE);
-              const port = url.port || (url.protocol === 'https:' ? '443' : '80');
-              const newPort = port === '8000' ? '5000' : '8000';
-              url.port = newPort;
-              return url.toString().replace(/\/$/, "");
-            } catch {
-              return API_BASE;
-            }
-          })();
-          try {
-            res = await tryOnce(altBase);
-            console.warn(`[AllEvents] Primary API_BASE failed, used fallback: ${altBase}`);
-          } catch (err2) {
-            throw err1;
-          }
-        }
+        const res = await axiosInstance.get(`/Event/AllEvents`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         if (!mounted) return;
         setEvents(Array.isArray(res?.data?.data) ? res.data.data : []);
       } catch (e) {
@@ -444,7 +419,7 @@ const AllEvents = () => {
   const refresh = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_BASE}/Event/AllEvents`, {
+      const res = await axiosInstance.get(`/Event/AllEvents`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents(Array.isArray(res?.data?.data) ? res.data.data : []);
@@ -473,7 +448,7 @@ const AllEvents = () => {
     };
     try {
       setSaving(true);
-      const res = await axios.patch(`${API_BASE}/Event/UpdateEvent/${editing._id}`, payload, {
+      const res = await axiosInstance.patch(`/Event/UpdateEvent/${editing._id}`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const updated = res?.data?.data;
@@ -495,7 +470,7 @@ const AllEvents = () => {
     if (!id) return;
     if (!confirm("Are you sure you want to delete this event?")) return;
     try {
-      await axios.delete(`${API_BASE}/Event/DeleteEvent/${id}`, {
+      await axiosInstance.delete(`/Event/DeleteEvent/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEvents((prev) => prev.filter((e) => e._id !== id));

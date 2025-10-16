@@ -3,9 +3,7 @@ import Header from "../Home/Header.jsx";
 import Footer from "../Home/Footer.jsx";
 import AuthContext from "../../context/AuthContext.jsx";
 import axiosInstance from "../../API/axios";
-import axios from "axios";
 
-const API_BASE = 'http://localhost:5000';
 
 const currency = (n) => `₹${Number(n || 0).toLocaleString()}`;
 const fmtDate = (d) => {
@@ -26,29 +24,9 @@ export default function OrganizerPastEvents() {
     try {
       setLoading(true);
       setError("");
-      const endpoint = `/Event/OrganizerPastEvents`;
-      const headers = { Authorization: `Bearer ${token}` };
-
-      const tryOnce = async (base) => axios.get(`${base}${endpoint}`, { headers });
-      let res;
-      try {
-        res = await tryOnce(API_BASE);
-      } catch (err1) {
-        const altBase = (() => {
-          try {
-            const url = new URL(API_BASE);
-            const port = url.port || (url.protocol === 'https:' ? '443' : '80');
-            const newPort = port === '5000' ? '8000' : '5000';
-            url.port = newPort;
-            return url.toString().replace(/\/$/, "");
-          } catch {
-            return API_BASE;
-          }
-        })();
-        res = await tryOnce(altBase);
-        console.warn(`[OrganizerPastEvents] Primary API_BASE failed, used fallback: ${altBase}`);
-      }
-
+      const res = await axiosInstance.get(`/Event/OrganizerPastEvents`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const list = res?.data?.data || [];
       setEvents(Array.isArray(list) ? list : []);
     } catch (e) {
