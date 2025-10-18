@@ -47,7 +47,7 @@ const Contact = () => {
                 </div>
                 <div className="ml-4">
                   <h4 className="text-lg font-semibold text-gray-900">Call Us</h4>
-                  <p className="mt-1 text-gray-600">+1 (555) 123-4567</p>
+                  <p className="mt-1 text-gray-600">(+91) 7389752988</p>
                 </div>
               </div>
               
@@ -59,7 +59,7 @@ const Contact = () => {
                 </div>
                 <div className="ml-4">
                   <h4 className="text-lg font-semibold text-gray-900">Email Us</h4>
-                  <p className="mt-1 text-gray-600">support@Evenza.com</p>
+                  <p className="mt-1 text-gray-600">tanzimsheikh68@gmail.com</p>
                 </div>
               </div>
               
@@ -72,7 +72,7 @@ const Contact = () => {
                 </div>
                 <div className="ml-4">
                   <h4 className="text-lg font-semibold text-gray-900">Visit Us</h4>
-                  <p className="mt-1 text-gray-600">123 Event Street, City, Country</p>
+                  <p className="mt-1 text-gray-600">Lala ki nagri me aake pta nahi puchte</p>
                 </div>
               </div>
             </div>
