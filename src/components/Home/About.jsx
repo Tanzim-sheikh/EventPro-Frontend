@@ -317,14 +317,22 @@ const About = () => {
             ))}
           </div>
         </div>
-        <div className="flex items-center justify-center pointer-events-auto">
+        {/* <div className="flex items-center justify-center pointer-events-auto">
           <Link
             to="/events"
             className="text-lg md:text-xl font-bold text-center text-white mb-8 md:mb-12 font-audiowide bg-[#A3B886] p-3 rounded-full hover:bg-[#7b8f60] transition-colors cursor-pointer"
           >
             Event Dashboard
           </Link>
-        </div>
+        </div> */}
+        <div className="flex items-center justify-center pointer-events-auto">
+  <Link
+    to="/events"
+    className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#A3B886] to-[#8C9F6E] text-white font-audiowide text-lg font-bold hover:from-[#8C9F6E] hover:to-[#7b8f60] transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl transform hover:scale-105 rounded-lg border border-white/20"
+  >
+    Event Dashboard
+  </Link>
+</div>
       </section>
 
       {/* Features Grid */}
