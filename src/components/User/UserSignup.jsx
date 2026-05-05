@@ -403,6 +403,11 @@ const UserSignup = () => {
   const handleFile = (e) => {
     const { name, files } = e.target;
     if (files && files[0]) {
+       if (file.size > 5 * 1024 * 1024) {
+      setErrorMsg('Profile photo must be less than 5MB.');
+      e.target.value = ''; // input reset
+      return;
+    }
       const file = files[0];
       const previewUrl = URL.createObjectURL(file);
       setFormData((prev) => ({ ...prev, [name]: file, profilePreviewUrl: previewUrl }));
