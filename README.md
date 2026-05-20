@@ -1,12 +1,101 @@
-# React + Vite
+# 🎫 EvenZap - Event Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive MERN stack event booking and management platform with role-based access control, payment integration, and email notifications.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Event Discovery** — Browse and filter events by category, date, location
+- **Role-based Access** — Admin, Organizer, and User roles with unique permissions
+- **Booking System** — Easy event booking with ticket selection
+- **Payment Integration** — Secure payments via Razorpay
+- **Email Notifications** — Automated confirmations and updates
+- **Admin Dashboard** — Complete event and user management
+- **Organizer Portal** — Create and manage events
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Frontend:**
+- React.js
+- Tailwind CSS
+- Redux Toolkit (for state management)
+- Axios (HTTP client)
+
+**Backend:**
+- Node.js & Express.js
+- MongoDB
+- JWT Authentication
+- Cloudinary (image uploads)
+- NodeMailer (email service)
+- Razorpay (payments)
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js (v14+)
+- MongoDB
+- Razorpay Account
+- Cloudinary Account
+
+### Clone & Setup
+```bash
+git clone https://github.com/Tanzim-sheikh/Event-Management.git
+cd Event-Management
+
+# Backend
+cd backend
+npm install
+# Create .env with MongoDB URI, JWT secret, Razorpay keys, Cloudinary credentials
+npm start
+
+# Frontend
+cd ../frontend
+npm install
+npm start
+```
+
+## 👥 User Roles
+
+### Admin
+- Manage all users and organizers
+- View all events and bookings
+- Generate reports
+- System management
+
+### Organizer
+- Create and edit events
+- Manage event details and tickets
+- View bookings for own events
+- Track revenue
+
+### User
+- Browse and filter events
+- Book tickets
+- View booking history
+- Receive email confirmations
+
+## 💳 Payment Integration
+
+- Razorpay test mode enabled
+- Secure payment processing
+- Automated receipt generation
+- Payment status tracking
+
+## 📧 Email Notifications
+
+Users receive emails for:
+- Booking confirmations
+- Payment receipts
+- Event reminders
+- Cancellation confirmations
+
+## 📸 Screenshots
+[Add your screenshots]
+
+## 🤝 Contributing
+Feel free to contribute! Submit issues and pull requests.
+
+## 📝 License
+MIT License
+
+## 👤 Author
+**Tanzim Sheikh** — [GitHub](https://github.com/Tanzim-sheikh) | [LinkedIn](https://www.linkedin.com/in/tanzim-sheikh-a42159328)
